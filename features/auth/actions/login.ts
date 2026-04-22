@@ -33,7 +33,7 @@ export const userLogin = async (data: LoginType) => {
     await createSession({
       sapId: user.sap_id,
       role: user.role,
-      name: user.user_information?.[0].full_name ?? user.sap_id,
+      name: user.user_information?.[0]?.full_name ?? user.sap_id,
     });
 
     return apiResponse.single({

@@ -72,8 +72,8 @@ function ExcelUploadButton({
   action,
 }: {
   action: (
-    data: any,
-  ) => Promise<{ success: boolean; message: string; data: any }>;
+    data: any[],
+  ) => Promise<{ success: boolean; message: string; data: any[] | null }>;
 }) {
   const [open, setOpen] = React.useState(false);
 

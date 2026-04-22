@@ -37,7 +37,7 @@ function log(level: LogLevel, payload: LogPayload) {
   };
 
   if (!isProd) {
-    console[level](JSON.stringify(logData, null, 2));
+    console[level](logData);
   } else {
     // 👉 Replace with external service in production
     console[level](JSON.stringify(logData));

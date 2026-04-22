@@ -39,7 +39,11 @@ export function LoginForm({
     toast[res.success ? "success" : "error"](res.message);
 
     if (res.success) {
-      router.replace("/dashboard");
+      if (res.data?.role === "mio") {
+        router.replace("/");
+      } else {
+        router.replace("/dashboard");
+      }
     }
   }
 
@@ -76,8 +80,7 @@ export function LoginForm({
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>
-                    SAP ID{" "}
-                    <Asterisk size={10} className="text-destructive" />
+                    SAP ID <Asterisk size={10} className="text-destructive" />
                   </FieldLabel>
                   <Input
                     {...field}

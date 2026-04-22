@@ -34,7 +34,7 @@ const multi = <T>({
   };
 };
 
-const single = <T>({ message, data }: { message?: string; data: T }) => {
+const single = <T>({ message, data }: { message: string; data: T }) => {
   return {
     success: true,
     message,
@@ -52,7 +52,7 @@ const error = ({ error }: { error: unknown }) => {
 
   return {
     success: false,
-    message: err.message,
+    message: err.message ?? "Something went wrong",
     data: null,
     count: 0,
   };
