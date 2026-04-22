@@ -3,6 +3,9 @@ import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { APP_METADATA } from "@/lib/data";
+import ProgressProviders from "@/providers/progress-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -19,7 +22,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: {
     default: APP_METADATA.title,
-    template: "%$ - " + APP_METADATA.title,
+    template: "%s - " + APP_METADATA.title,
   },
   description: "Developed for analyze RX data of exium products",
   creator: "Impala Intech LTD.",
@@ -47,6 +50,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -64,7 +69,12 @@ export default function RootLayout({
         outfit.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ProgressProviders>
+          <TooltipProvider>{children}</TooltipProvider>
+          <Toaster closeButton richColors position="top-right" />
+        </ProgressProviders>
+      </body>
     </html>
   );
 }
