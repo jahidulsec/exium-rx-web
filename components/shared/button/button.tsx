@@ -52,8 +52,7 @@ const FormButton = ({
       {...props}
       disabled={isPending || props.disabled}
     >
-      {isPending && <Loader className="animate-spin" />}
-      {children}
+      {isPending ? <Loader className="animate-spin" /> : children}
     </Button>
   );
 };

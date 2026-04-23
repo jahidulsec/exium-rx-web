@@ -19,7 +19,8 @@ import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogContent,
-  AlertDialogCancel
+  AlertDialogCancel,
+  AlertDialogTitle
 } from "@/components/ui/alert-dialog";
 
 const ExcelUploadSchema = z.object({
@@ -84,7 +85,8 @@ function ExcelUploadButton({
       </Button>
 
       <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogContent aria-describedby="Excel file upload">
+        <AlertDialogContent>
+          <AlertDialogTitle>Excel File Upload</AlertDialogTitle>
           <ExcelUploadForm action={action} />
             <AlertDialogCancel>Cancel</AlertDialogCancel>
         </AlertDialogContent>
