@@ -15,7 +15,7 @@ model user {
   created_at                           DateTime?         @default(now()) @db.Timestamp(0)
   updated_at                           DateTime?         @default(now()) @db.Timestamp(0)
   user_group_user_group_gm_codeTouser  user_group[]      @relation("user_group_gm_codeTouser")
-  user_group_user_group_mio_codeTouser user_group[]      @relation("user_group_mio_codeTouser")
+  user_group_user_group_mio_codeTouser user_group?       @relation("user_group_mio_codeTouser")
   user_group_user_group_rm_codeTouser  user_group[]      @relation("user_group_rm_codeTouser")
   user_group_user_group_sm_codeTouser  user_group[]      @relation("user_group_sm_codeTouser")
   user_group_user_group_zm_codeTouser  user_group[]      @relation("user_group_zm_codeTouser")
@@ -24,7 +24,7 @@ model user {
 
 model user_group {
   id                             Int       @id @default(autoincrement())
-  mio_code                       String    @db.VarChar(6)
+  mio_code                       String    @unique(map: "mio_unq") @db.VarChar(6)
   rm_code                        String    @db.VarChar(6)
   zm_code                        String    @db.VarChar(6)
   sm_code                        String    @db.VarChar(6)
@@ -37,7 +37,6 @@ model user_group {
   user_user_group_sm_codeTouser  user      @relation("user_group_sm_codeTouser", fields: [sm_code], references: [user_id], onDelete: Cascade, map: "sm_fk")
   user_user_group_zm_codeTouser  user      @relation("user_group_zm_codeTouser", fields: [zm_code], references: [user_id], onDelete: Cascade, map: "zm_fk")
 
-  @@unique([mio_code, rm_code, zm_code, sm_code, gm_code], map: "group_unq")
   @@index([gm_code], map: "gm_fk")
   @@index([rm_code], map: "rm_fk")
   @@index([sm_code], map: "sm_fk")

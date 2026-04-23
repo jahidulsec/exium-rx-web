@@ -3,7 +3,7 @@ import { bdPhoneRegex } from "@/utils/regex";
 import z from "zod";
 
 export const userSchema = z.object({
-  sap_id: z.string().min(1),
+  user_id: z.string().min(1),
   password: z.string().min(6),
   role: userRoleEnum,
 });
@@ -22,11 +22,11 @@ export const userInformationSchema = z.object({
 });
 
 export const userGroupSchema = z.object({
-  mio_sap_id: z.string().min(1),
-  rm_sap_id: z.string().min(1),
-  zm_sap_id: z.string().min(1),
-  sm_sap_id: z.string().min(1),
-  gm_sap_id: z.string().min(1),
+  mio_code: z.string().min(1),
+  rm_code: z.string().min(1),
+  zm_code: z.string().min(1),
+  sm_code: z.string().min(1),
+  gm_code: z.string().min(1),
 });
 
 export const bulkUsersSchema = z.array(
@@ -44,29 +44,45 @@ export const bulkUsersSchema = z.array(
     RMCode: z.string().min(1),
     SAPRMCode: z.string().min(1),
     RMName: z.string().min(1),
-    MailID: z.email().optional(),
+    RMDesignation: z.string().min(1),
+    RMEmail: z.email().optional(),
+    RMPhone: z.string().regex(bdPhoneRegex, "Invalid Phone Number").optional(),
     RegionName: z.string().min(1),
     RegionCode: z.string().min(1),
     SAPRegionCode: z.string().min(1),
     ZMCode: z.string().min(1),
     SAPZMCode: z.string().min(1),
     ZMName: z.string().min(1),
+    ZMDesignation: z.string().min(1),
+    ZMEmail: z.email().optional(),
+    ZMPhone: z.string().regex(bdPhoneRegex, "Invalid Phone Number").optional(),
     ZoneName: z.string().min(1),
     ZoneCode: z.string().min(1),
     SAPZoneCode: z.string().min(1),
     SMCode: z.string().min(1),
     SAPSMCode: z.string().min(1),
     SMName: z.string().min(1),
+    SMDesignation: z.string().min(1),
+    SMEmail: z.email().optional(),
+    SMPhone: z.string().regex(bdPhoneRegex, "Invalid Phone Number").optional(),
     SMAreaName: z.string().min(1),
     SMAreaCode: z.string().min(1),
     SAPSMAreaCode: z.string().min(1),
     GMCode: z.string().min(1),
     SAPGMCode: z.string().min(1),
     GMName: z.string().min(1),
+    GMDesignation: z.string().min(1),
+    GMEmail: z.email().optional(),
+    GMPhone: z.string().regex(bdPhoneRegex, "Invalid Phone Number").optional(),
     GMAreaName: z.string().min(1),
     GMAreaCode: z.string().min(1),
     SAPGMAreaCode: z.string().min(1),
   }),
 );
 
+export const userWithInformationSchema = userSchema
+  .extend(userInformationSchema.shape)
+  .omit({ user_code: true });
+
 export type BulkUsersType = z.infer<typeof bulkUsersSchema>;
+export type UserWithInformationType = z.infer<typeof userWithInformationSchema>;

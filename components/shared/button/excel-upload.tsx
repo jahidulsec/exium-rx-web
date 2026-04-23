@@ -84,7 +84,7 @@ function ExcelUploadButton({
       </Button>
 
       <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent aria-describedby="Excel file upload">
           <ExcelUploadForm action={action} />
             <AlertDialogCancel>Cancel</AlertDialogCancel>
         </AlertDialogContent>
