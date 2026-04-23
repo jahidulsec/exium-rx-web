@@ -1,7 +1,7 @@
 import { user_role } from "@/lib/generated/prisma";
 
 export type AuthUser = {
-  sapId: string;
+  userId: string;
   name: string;
   role: AuthUserRole;
 };

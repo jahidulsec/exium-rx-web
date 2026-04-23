@@ -9,39 +9,39 @@ datasource db {
 }
 
 model user {
-  sap_id           String             @id @db.VarChar(6)
-  password         String             @db.VarChar(255)
-  role             user_role
-  created_at       DateTime?          @default(now()) @db.Timestamp(0)
-  updated_at       DateTime?          @default(now()) @db.Timestamp(0)
-  mio              user_group[]       @relation("user_group_mio_sap_idTouser")
-  rm               user_group[]       @relation("user_group_rm_sap_idTouser")
-  zm               user_group[]       @relation("user_group_zm_sap_idTouser")
-  sm               user_group[]       @relation("user_group_sm_sap_idTouser")
-  gm               user_group[]       @relation("user_group_gm_sap_idTouser")
-  user_information user_information[]
+  user_id                              String            @id @db.VarChar(6)
+  password                             String            @db.VarChar(255)
+  role                                 user_role
+  created_at                           DateTime?         @default(now()) @db.Timestamp(0)
+  updated_at                           DateTime?         @default(now()) @db.Timestamp(0)
+  user_group_user_group_gm_codeTouser  user_group[]      @relation("user_group_gm_codeTouser")
+  user_group_user_group_mio_codeTouser user_group[]      @relation("user_group_mio_codeTouser")
+  user_group_user_group_rm_codeTouser  user_group[]      @relation("user_group_rm_codeTouser")
+  user_group_user_group_sm_codeTouser  user_group[]      @relation("user_group_sm_codeTouser")
+  user_group_user_group_zm_codeTouser  user_group[]      @relation("user_group_zm_codeTouser")
+  user_information                     user_information?
 }
 
 model user_group {
-  id         String    @id @db.VarChar(21)
-  mio_sap_id String    @db.VarChar(6)
-  rm_sap_id  String    @db.VarChar(6)
-  zm_sap_id  String    @db.VarChar(6)
-  sm_sap_id  String    @db.VarChar(6)
-  gm_sap_id  String    @db.VarChar(6)
-  created_at DateTime? @default(now()) @db.Timestamp(0)
-  updated_at DateTime? @default(now()) @db.Timestamp(0)
-  mio        user      @relation("user_group_mio_sap_idTouser", fields: [mio_sap_id], references: [sap_id], onDelete: Cascade, map: "user_group_relation_1")
-  rm         user      @relation("user_group_rm_sap_idTouser", fields: [rm_sap_id], references: [sap_id], onDelete: Cascade, map: "user_group_relation_2")
-  zm         user      @relation("user_group_zm_sap_idTouser", fields: [zm_sap_id], references: [sap_id], onDelete: Cascade, map: "user_group_relation_3")
-  sm         user      @relation("user_group_sm_sap_idTouser", fields: [sm_sap_id], references: [sap_id], onDelete: Cascade, map: "user_group_relation_4")
-  gm         user      @relation("user_group_gm_sap_idTouser", fields: [gm_sap_id], references: [sap_id], onDelete: Cascade, map: "user_group_relation_5")
+  id                             Int       @id @default(autoincrement())
+  mio_code                       String    @db.VarChar(6)
+  rm_code                        String    @db.VarChar(6)
+  zm_code                        String    @db.VarChar(6)
+  sm_code                        String    @db.VarChar(6)
+  gm_code                        String    @db.VarChar(6)
+  created_at                     DateTime? @default(now()) @db.Timestamp(0)
+  updated_at                     DateTime? @default(now()) @db.Timestamp(0)
+  user_user_group_gm_codeTouser  user      @relation("user_group_gm_codeTouser", fields: [gm_code], references: [user_id], onDelete: Cascade, map: "gm_fk")
+  user_user_group_mio_codeTouser user      @relation("user_group_mio_codeTouser", fields: [mio_code], references: [user_id], onDelete: Cascade, map: "mio_fk")
+  user_user_group_rm_codeTouser  user      @relation("user_group_rm_codeTouser", fields: [rm_code], references: [user_id], onDelete: Cascade, map: "rm_fk")
+  user_user_group_sm_codeTouser  user      @relation("user_group_sm_codeTouser", fields: [sm_code], references: [user_id], onDelete: Cascade, map: "sm_fk")
+  user_user_group_zm_codeTouser  user      @relation("user_group_zm_codeTouser", fields: [zm_code], references: [user_id], onDelete: Cascade, map: "zm_fk")
 
-  @@unique([mio_sap_id, rm_sap_id, zm_sap_id, sm_sap_id, gm_sap_id], map: "user_group_index_7")
-  @@index([rm_sap_id], map: "user_group_relation_2")
-  @@index([zm_sap_id], map: "user_group_relation_3")
-  @@index([sm_sap_id], map: "user_group_relation_4")
-  @@index([gm_sap_id], map: "user_group_relation_5")
+  @@unique([mio_code, rm_code, zm_code, sm_code, gm_code], map: "group_unq")
+  @@index([gm_code], map: "gm_fk")
+  @@index([rm_code], map: "rm_fk")
+  @@index([sm_code], map: "sm_fk")
+  @@index([zm_code], map: "zm_fk")
 }
 
 model user_information {
@@ -57,7 +57,7 @@ model user_information {
   sap_area_code String    @db.VarChar(8)
   created_at    DateTime? @default(now()) @db.Timestamp(0)
   updated_at    DateTime? @default(now()) @db.Timestamp(0)
-  user          user      @relation(fields: [sap_id], references: [sap_id], onDelete: Cascade, map: "user_information_user_fk")
+  user          user      @relation(fields: [user_code], references: [user_id], onDelete: Cascade, map: "user_fk")
 
   @@unique([user_code, sap_id], map: "user_information_index_3")
   @@index([sap_id], map: "user_information_user_fk")

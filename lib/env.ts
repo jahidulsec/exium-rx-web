@@ -6,11 +6,15 @@ export const env = createEnv({
     DATABASE_URL: z.url(),
     SESSION_SECRET: z.string().min(3),
     COOKIE_SECURE: z.enum(["0", "1"]).default("0").optional(),
+
+    // user default password
+    DEFAULT_USER_PASSWORD: z.string().min(6),
   },
   client: {},
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     SESSION_SECRET: process.env.SESSION_SECRET,
     COOKIE_SECURE: process.env.COOKIE_SECURE,
+    DEFAULT_USER_PASSWORD: process.env.DEFAULT_USER_PASSWORD
   },
 });

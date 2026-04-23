@@ -27,7 +27,7 @@ export function LoginForm({
   const form = useForm<LoginType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      sap_id: "",
+      user_id: "",
       password: "",
     },
   });
@@ -76,11 +76,11 @@ export function LoginForm({
           <FieldGroup>
             <Controller
               control={form.control}
-              name="sap_id"
+              name="user_id"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>
-                    SAP ID <Asterisk size={10} className="text-destructive" />
+                    User ID <Asterisk size={10} className="text-destructive" />
                   </FieldLabel>
                   <Input
                     {...field}

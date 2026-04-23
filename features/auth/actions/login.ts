@@ -11,7 +11,7 @@ export const userLogin = async (data: LoginType) => {
     // check user
     const user = await db.user.findUnique({
       where: {
-        sap_id: data.sap_id,
+        user_id: data.user_id,
       },
       include: {
         user_information: {
@@ -31,9 +31,9 @@ export const userLogin = async (data: LoginType) => {
 
     // create session
     await createSession({
-      sapId: user.sap_id,
+      userId: user.user_id,
       role: user.role,
-      name: user.user_information?.[0]?.full_name ?? user.sap_id,
+      name: user.user_information?.full_name ?? user.user_id,
     });
 
     return apiResponse.single({
