@@ -70,7 +70,7 @@ model doctor {
   pppp_id          String?   @db.VarChar(10)
   full_name        String    @db.VarChar(200)
   gender_idx       String?   @db.VarChar(2)
-  degrees          String    @db.VarChar(150)
+  degrees          String?   @db.VarChar(150)
   speciality       String?   @db.VarChar(50)
   chamber          String?   @db.VarChar(200)
   mobile           String?   @db.VarChar(14)

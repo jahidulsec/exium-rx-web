@@ -3,7 +3,7 @@ import React from "react";
 
 const Section = ({ className, ...props }: React.ComponentProps<"section">) => {
   return (
-    <section className={cn("container px-6 mx-auto", className)} {...props} />
+    <section className={cn("container px-4 mx-auto", className)} {...props} />
   );
 };
 

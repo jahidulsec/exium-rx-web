@@ -18,10 +18,12 @@ export const doctorsSchema = z.array(
     PPPPID: z.string().optional(),
     DoctorName: z.string().min(1),
     Gender: z.string().optional(),
-    Degrees: z.string().min(1),
+    Degrees: z.string().min(1).optional(),
     Speciality: z.string().optional(),
     Chamber: z.string().optional(),
-    CellPhone1: z.string().regex(bdPhoneRegex, "Invalid mobile number").optional(),
+    CellPhone1: z.string()
+    // .regex(bdPhoneRegex, "Invalid mobile number")
+    .optional(),
     DrClass: z.string().optional(),
     RxQty: z.coerce.number().optional(),
     EMP: z.string().optional(),

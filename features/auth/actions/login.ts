@@ -18,6 +18,7 @@ export const userLogin = async (data: LoginType) => {
           select: {
             full_name: true,
             mobile: true,
+            sap_area_code: true,
           },
         },
       },
@@ -34,6 +35,7 @@ export const userLogin = async (data: LoginType) => {
       userId: user.user_id,
       role: user.role,
       name: user.user_information?.full_name ?? user.user_id,
+      areaCode: user.user_information?.sap_area_code ?? "",
     });
 
     return apiResponse.single({
