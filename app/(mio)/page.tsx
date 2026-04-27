@@ -18,6 +18,7 @@ import { fetchQuery } from "@/lib/react-query";
 import { AuthUser } from "@/types/auth-user";
 import { ErrorBoundary } from "@/components/shared/boundary/error-boundary";
 import { SectionLoader } from "@/components/shared/skeleton/section";
+import DoctorCard from "@/features/doctor/components/mio/card";
 
 export default async function MioHomePage() {
   const user = await getAuthUser();
@@ -58,15 +59,15 @@ export default async function MioHomePage() {
 const RxContainer = async ({ user }: { user: AuthUser }) => {
   const { data, message, success } = await fetchQuery({
     queryFn: () =>
-      getDoctors({ page: 1, size: 20, sapAreaCode: user.areaCode }),
+      getDoctors({ page: 1, size: 10, sapAreaCode: user.areaCode }),
     queryKey: ["doctors"],
   });
 
   return (
     <ErrorBoundary message={!success ? message : undefined}>
-      <CardContent>
+      <CardContent className="flex flex-col gap-3">
         {data?.map((item) => (
-          <p key={item.dr_child_id}>{item.full_name}</p>
+          <DoctorCard {...item} key={item.dr_child_id} />
         ))}
       </CardContent>
     </ErrorBoundary>

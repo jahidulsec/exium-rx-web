@@ -13,8 +13,8 @@ export default async function MioNav() {
   const role = user?.role ?? "";
 
   return (
-    <header className="sticky top-0 max-w-sm mx-auto w-full mb-6">
-      <div className="container mx-auto p-2 px-4 w-full relative">
+    <header className="max-w-sm mx-auto w-full mb-6">
+      <div className="container mx-auto py-4 px-4 w-full relative">
         <div className="flex justify-between items-center">
           {/* Profile */}
           <div className="flex items-center gap-2">
