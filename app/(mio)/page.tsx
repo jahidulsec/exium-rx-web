@@ -81,7 +81,7 @@ const RxContainer = async ({
         search: search?.toString(),
         sapAreaCode: user.areaCode,
       }),
-    queryKey: ["doctors"],
+    queryKey: ["doctors", user.areaCode],
   });
 
   return (

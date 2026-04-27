@@ -45,12 +45,12 @@ export default function PagePagination({
   };
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">
+    <div className="@container/pagination flex items-center justify-between">
+      <div className="text-muted-foreground hidden flex-1 text-sm @lg/pagination:flex">
         Overall {count} row(s) counted.
       </div>
-      <div className="flex w-full items-center gap-8 lg:w-fit">
-        <div className="hidden items-center gap-2 lg:flex">
+      <div className="flex w-full items-center gap-8 @lg/pagination:w-fit">
+        <div className="hidden items-center gap-2 @lg/pagination:flex">
           <Label htmlFor="rows-per-page" className="text-sm font-medium">
             {size} Rows per page
           </Label>
@@ -79,10 +79,10 @@ export default function PagePagination({
         <div className="flex w-fit items-center justify-center text-sm font-medium">
           Page {page} of {pageNumber}
         </div>
-        <div className="ml-auto flex items-center gap-2 lg:ml-0">
+        <div className="ml-auto flex items-center gap-2 @lg/pagination:ml-0">
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className="hidden h-8 w-8 p-0 @lg/pagination:flex"
             onClick={() => {
               handlePageParams(1);
             }}
@@ -117,7 +117,7 @@ export default function PagePagination({
           </Button>
           <Button
             variant="outline"
-            className="hidden size-8 lg:flex"
+            className="hidden size-8 @lg/pagination:flex"
             size="icon"
             onClick={() => {
               handlePageParams(pageNumber);

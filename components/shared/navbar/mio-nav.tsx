@@ -31,7 +31,7 @@ export default async function MioNav() {
           </div>
 
           <div className="flex items-center gap-1.5">
-            <LogoFull width={130} />
+            <LogoFull width={110} />
 
             {/* Right Menu */}
             <Button size="icon-sm" variant={'outline'} className="border-primary bg-primary/20 rounded-2xl">

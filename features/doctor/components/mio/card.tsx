@@ -1,6 +1,4 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { doctor } from "@/lib/generated/prisma";
 import { PlusCircle } from "lucide-react";
 import React from "react";
 import { DoctorMulti } from "../../libs/doctor";
