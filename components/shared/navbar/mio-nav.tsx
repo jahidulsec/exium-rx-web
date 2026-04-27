@@ -1,5 +1,4 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import React from "react";
 import { LogoFull } from "../assets/logo";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
@@ -24,7 +23,7 @@ export default async function MioNav() {
             </Avatar>
 
             <div className="">
-              <h4 className="text-xs line-clamp-1 h-5 overflow-hidden">
+              <h4 className="text-sm line-clamp-1 max-w-35 font-semibold h-5 overflow-hidden">
                 {name}
               </h4>
               <p className="-mt-1 text-xs text-muted-foreground">{role} ({username})</p>
@@ -32,7 +31,7 @@ export default async function MioNav() {
           </div>
 
           <div className="flex items-center gap-1.5">
-            <LogoFull width={100} />
+            <LogoFull width={130} />
 
             {/* Right Menu */}
             <Button size="icon-sm" variant={'outline'} className="border-primary bg-primary/20 rounded-2xl">

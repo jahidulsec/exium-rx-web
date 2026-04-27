@@ -19,8 +19,14 @@ import { AuthUser } from "@/types/auth-user";
 import { ErrorBoundary } from "@/components/shared/boundary/error-boundary";
 import { SectionLoader } from "@/components/shared/skeleton/section";
 import DoctorCard from "@/features/doctor/components/mio/card";
+import PagePagination from "@/components/shared/pagination/pagination";
+import { SearchParams } from "@/types/search-params";
 
-export default async function MioHomePage() {
+export default async function MioHomePage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   const user = await getAuthUser();
 
   if (!user) redirect("/login");
@@ -48,7 +54,7 @@ export default async function MioHomePage() {
             </CardAction>
           </CardHeader>
           <Suspense fallback={<SectionLoader />}>
-            <RxContainer user={user} />
+            <RxContainer searchParams={searchParams} user={user} />
           </Suspense>
         </Card>
       </Section>
@@ -56,10 +62,25 @@ export default async function MioHomePage() {
   );
 }
 
-const RxContainer = async ({ user }: { user: AuthUser }) => {
-  const { data, message, success } = await fetchQuery({
+const RxContainer = async ({
+  user,
+  searchParams,
+}: {
+  user: AuthUser;
+  searchParams: SearchParams;
+}) => {
+  const { page, search } = await searchParams;
+
+  const size = 5
+
+  const { data, message, success, count } = await fetchQuery({
     queryFn: () =>
-      getDoctors({ page: 1, size: 10, sapAreaCode: user.areaCode }),
+      getDoctors({
+        page: Number(page) || 1,
+        size,
+        search: search?.toString(),
+        sapAreaCode: user.areaCode,
+      }),
     queryKey: ["doctors"],
   });
 
@@ -69,6 +90,7 @@ const RxContainer = async ({ user }: { user: AuthUser }) => {
         {data?.map((item) => (
           <DoctorCard {...item} key={item.dr_child_id} />
         ))}
+        <PagePagination limit={size} count={count} />
       </CardContent>
     </ErrorBoundary>
   );

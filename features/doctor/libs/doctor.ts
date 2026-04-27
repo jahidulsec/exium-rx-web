@@ -12,6 +12,12 @@ const doctorQuerySchema = baseQuerySchema.extend({
 
 type DoctorQueryType = z.infer<typeof doctorQuerySchema>;
 
+export type DoctorMulti = Prisma.doctorGetPayload<{
+  include: {
+    _count: true;
+  };
+}>;
+
 export const getDoctors = async (query: DoctorQueryType) => {
   try {
     const validatedParams = doctorQuerySchema.parse(query);
@@ -40,13 +46,16 @@ export const getDoctors = async (query: DoctorQueryType) => {
         orderBy: {
           full_name: "asc",
         },
+        include: {
+          _count: true,
+        },
       }),
       db.doctor.count({
         where: filter,
       }),
     ]);
 
-    return apiResponse.multi({
+    return apiResponse.multi<DoctorMulti>({
       data,
       count,
     });

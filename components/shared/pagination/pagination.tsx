@@ -20,11 +20,17 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "@bprogress/next/app";
 import { DEFAULT_PAGE_SIZE } from "@/utils/settings";
 
-export default function PagePagination({ count }: { count: number }) {
+export default function PagePagination({
+  count,
+  limit,
+}: {
+  limit?: number;
+  count: number;
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const size = Number(searchParams.get("size")) || DEFAULT_PAGE_SIZE;
+  const size = Number(searchParams.get("size")) || limit || DEFAULT_PAGE_SIZE;
 
   const [pageSize, setPageSize] = React.useState(size);
 
