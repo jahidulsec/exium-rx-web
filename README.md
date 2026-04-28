@@ -46,7 +46,7 @@ A modern and responsive **Web App** and **Admin Panel** built with **Next.js**, 
 1. Clone the Repo
 
 ```bash
-git clone https://github.com/jahidulsec/sales-khub-quiz.git
+git clone https://github.com/jahidulsec/exium-rx-web.git
 cd sales-khub-quiz
 ```
 
@@ -70,7 +70,7 @@ openssl rand -base64 32
 npm run dev
 ```
 
-Now open [http://localhost:5012](http://localhost:5012) in your browser 🚀
+Now open [http://localhost:5019](http://localhost:5019) in your browser 🚀
 
 5. Run the server with Docker
 
