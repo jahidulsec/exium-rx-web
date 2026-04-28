@@ -14,7 +14,6 @@ import { redirect } from "next/navigation";
 import { Filter } from "lucide-react";
 import { Suspense } from "react";
 import { getDoctors } from "@/features/doctor/libs/doctor";
-import { fetchQuery } from "@/lib/react-query";
 import { AuthUser } from "@/types/auth-user";
 import { ErrorBoundary } from "@/components/shared/boundary/error-boundary";
 import { SectionLoader } from "@/components/shared/skeleton/section";
@@ -71,24 +70,20 @@ const RxContainer = async ({
 }) => {
   const { page, search } = await searchParams;
 
-  const size = 5
+  const size = 5;
 
-  const { data, message, success, count } = await fetchQuery({
-    queryFn: () =>
-      getDoctors({
-        page: Number(page) || 1,
-        size,
-        search: search?.toString(),
-        sapAreaCode: user.areaCode,
-      }),
-    queryKey: ["doctors", user.areaCode],
+  const { data, message, success, count } = await getDoctors({
+    page: Number(page) || 1,
+    size,
+    search: search?.toString(),
+    sapAreaCode: user.areaCode,
   });
 
   return (
     <ErrorBoundary message={!success ? message : undefined}>
       <CardContent className="flex flex-col gap-3">
         {data?.map((item) => (
-          <DoctorCard {...item} key={item.dr_child_id} />
+          <DoctorCard doctor={item} key={item.dr_child_id} user={user} />
         ))}
         <PagePagination limit={size} count={count} />
       </CardContent>

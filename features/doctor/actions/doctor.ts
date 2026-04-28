@@ -3,6 +3,7 @@
 import { apiResponse } from "@/lib/response";
 import { doctorsSchema, DoctorsType } from "./schema";
 import { db } from "@/config/db";
+import { revalidatePath } from "next/cache";
 
 export const createDoctors = async (data: DoctorsType) => {
   try {
@@ -89,6 +90,9 @@ export const createDoctors = async (data: DoctorsType) => {
         },
       });
     }
+
+    revalidatePath("/");
+    revalidatePath("/dashboard");
 
     return apiResponse.single({
       message: "Doctors data uploads successfull",

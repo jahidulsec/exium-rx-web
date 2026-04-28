@@ -6,7 +6,6 @@ import { APP_METADATA } from "@/lib/data";
 import ProgressProviders from "@/providers/progress-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryProviders } from "@/providers/react-query-provider";
 
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -71,12 +70,10 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <QueryProviders>
-          <ProgressProviders>
-            <TooltipProvider>{children}</TooltipProvider>
-            <Toaster closeButton richColors position="top-right" />
-          </ProgressProviders>
-        </QueryProviders>
+        <ProgressProviders>
+          <TooltipProvider>{children}</TooltipProvider>
+          <Toaster closeButton richColors position="top-right" />
+        </ProgressProviders>
       </body>
     </html>
   );

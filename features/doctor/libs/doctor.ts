@@ -6,6 +6,7 @@ import { apiResponse } from "@/lib/response";
 import { baseQuerySchema } from "@/schema/base-query";
 import z from "zod";
 
+
 const doctorQuerySchema = baseQuerySchema.extend({
   sapAreaCode: z.string().optional(),
 });
@@ -54,6 +55,7 @@ export const getDoctors = async (query: DoctorQueryType) => {
         where: filter,
       }),
     ]);
+
 
     return apiResponse.multi<DoctorMulti>({
       data,

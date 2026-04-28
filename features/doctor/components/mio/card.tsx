@@ -2,14 +2,17 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import React from "react";
 import { DoctorMulti } from "../../libs/doctor";
+import CreateRxButton from "@/features/rx/components/mio/create-rx-button";
+import { AuthUser } from "@/types/auth-user";
 
 export default function DoctorCard({
-  full_name,
-  degrees,
-  speciality,
-  chamber,
-  ...props
-}: DoctorMulti) {
+  doctor,
+  user,
+}: {
+  doctor: DoctorMulti;
+  user: AuthUser;
+}) {
+  const { full_name, degrees, speciality, ...props } = doctor;
   return (
     <div className="rounded-xl bg-background overflow-hidden">
       <div className="p-4 flex justify-between items-start gap-6">
@@ -25,9 +28,7 @@ export default function DoctorCard({
         {/* actions */}
         <div className="flex flex-col justify-between items-end gap-1">
           <p className="text-xs text-muted-foreground">Yesterday</p>
-          <Button>
-            <PlusCircle /> Entry
-          </Button>
+          <CreateRxButton doctor={doctor} user={user} />
         </div>
       </div>
       <div className="p-3 bg-muted/50">
