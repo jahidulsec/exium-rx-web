@@ -3,6 +3,7 @@ import { LogoFull } from "../assets/logo";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { getAuthUser } from "@/lib/dal";
+import MioNavMenu from "./mio-nav-menu";
 
 export default async function MioNav() {
   const user = await getAuthUser();
@@ -26,7 +27,9 @@ export default async function MioNav() {
               <h4 className="text-sm line-clamp-1 max-w-35 font-semibold h-5 overflow-hidden">
                 {name}
               </h4>
-              <p className="-mt-1 text-xs text-muted-foreground">{role} ({username})</p>
+              <p className="-mt-1 text-xs text-muted-foreground">
+                {role} ({username})
+              </p>
             </div>
           </div>
 
@@ -34,9 +37,7 @@ export default async function MioNav() {
             <LogoFull width={110} />
 
             {/* Right Menu */}
-            <Button size="icon-sm" variant={'outline'} className="border-primary bg-primary/20 rounded-2xl">
-              <Menu />
-            </Button>
+            <MioNavMenu />
           </div>
         </div>
 
