@@ -3,15 +3,12 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Section } from "@/components/shared/section/section";
-import { Button } from "@/components/ui/button";
 import { getAuthUser } from "@/lib/dal";
 import { redirect } from "next/navigation";
-import { Filter } from "lucide-react";
 import { Suspense } from "react";
 import { getDoctors } from "@/features/doctor/libs/doctor";
 import { AuthUser } from "@/types/auth-user";
@@ -20,6 +17,7 @@ import { SectionLoader } from "@/components/shared/skeleton/section";
 import DoctorCard from "@/features/doctor/components/mio/card";
 import PagePagination from "@/components/shared/pagination/pagination";
 import { SearchParams } from "@/types/search-params";
+import { SearchForm } from "@/components/shared/inputs/search";
 
 export default async function MioHomePage({
   searchParams,
@@ -45,12 +43,7 @@ export default async function MioHomePage({
             <CardDescription>
               Overview of listed doctors with RX entries
             </CardDescription>
-            <CardAction>
-              <Button>
-                <Filter />
-                <span className="sr-only">Filter</span>
-              </Button>
-            </CardAction>
+            <SearchForm className="mt-6" placeholder="Search by doctor name, child ID" />
           </CardHeader>
           <Suspense fallback={<SectionLoader />}>
             <RxContainer searchParams={searchParams} user={user} />

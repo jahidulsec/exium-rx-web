@@ -42,7 +42,7 @@ function Search({
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "relative shrink flex-1 w-full sm:w-fit sm:flex-none sm:max-w-xl min-w-40",
+        "relative shrink flex-1 w-full @sm:w-fit @sm:flex-none @sm:max-w-xl min-w-40",
         className,
       )}
     >
