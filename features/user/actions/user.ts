@@ -10,6 +10,7 @@ import {
 import { db } from "@/config/db";
 import { hashPassword } from "@/utils/password";
 import { env } from "@/lib/env";
+import { revalidatePath } from "next/cache";
 
 export const createUsers = async (data: BulkUsersType) => {
   let rmCode = "";
@@ -194,10 +195,25 @@ const upsertUserWithInformation = async (data: UserWithInformationType) => {
   });
 };
 
-export const updateUserProfile = async(data: UserProfileType) => {
+export const updateUserProfile = async (data: UserProfileType) => {
   try {
-    
+    const { user_id, ...rest } = data;
+    const user = await db.user_information.update({
+      where: {
+        user_code: user_id,
+      },
+      data: rest,
+    });
+
+    revalidatePath("/profile");
+    revalidatePath("/");
+    revalidatePath("/dashboard");
+
+    return apiResponse.single({
+      message: "Profile is updated",
+      data: user,
+    });
   } catch (error) {
-    return apiResponse.error({error})
+    return apiResponse.error({ error });
   }
-}
+};

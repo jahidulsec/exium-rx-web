@@ -13,15 +13,13 @@ import { userProfileSchema, UserProfileType } from "../../actions/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { FormButton } from "@/components/shared/button/button";
+import { updateUserProfile } from "../../actions/user";
+import { toast } from "sonner";
 
 export default function ProfileForm({
   profile,
-  onError,
-  onSuccess,
 }: {
   profile: UserProfileSingleType;
-  onSuccess?: (message?: string) => void;
-  onError?: (message?: string) => void;
 }) {
   const form = useForm<UserProfileType>({
     resolver: zodResolver(userProfileSchema),
@@ -34,7 +32,11 @@ export default function ProfileForm({
     },
   });
 
-  const onSubmit = async (data: UserProfileType) => {};
+  const onSubmit = async (data: UserProfileType) => {
+    const res = await updateUserProfile(data);
+
+    toast[res.success ? "success" : "info"](res.message);
+  };
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
