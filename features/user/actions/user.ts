@@ -4,6 +4,7 @@ import { apiResponse } from "@/lib/response";
 import {
   bulkUsersSchema,
   BulkUsersType,
+  UserProfileType,
   UserWithInformationType,
 } from "./schema";
 import { db } from "@/config/db";
@@ -192,3 +193,11 @@ const upsertUserWithInformation = async (data: UserWithInformationType) => {
     },
   });
 };
+
+export const updateUserProfile = async(data: UserProfileType) => {
+  try {
+    
+  } catch (error) {
+    return apiResponse.error({error})
+  }
+}

@@ -21,6 +21,19 @@ export const userInformationSchema = z.object({
   sap_area_code: z.string().min(1),
 });
 
+export const userProfileSchema = userSchema
+  .omit({ password: true, role: true })
+  .extend(
+    userInformationSchema.omit({
+      user_code: true,
+      sap_id: true,
+      team: true,
+      area_code: true,
+      area_name: true,
+      sap_area_code: true,
+    }).shape,
+  );
+
 export const userGroupSchema = z.object({
   mio_code: z.string().min(1),
   rm_code: z.string().min(1),
@@ -86,3 +99,4 @@ export const userWithInformationSchema = userSchema
 
 export type BulkUsersType = z.infer<typeof bulkUsersSchema>;
 export type UserWithInformationType = z.infer<typeof userWithInformationSchema>;
+export type UserProfileType = z.infer<typeof userProfileSchema>;
