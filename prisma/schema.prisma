@@ -20,6 +20,7 @@ model user {
   user_group_user_group_rm_codeTouser  user_group[]      @relation("user_group_rm_codeTouser")
   user_group_user_group_sm_codeTouser  user_group[]      @relation("user_group_sm_codeTouser")
   user_group_user_group_zm_codeTouser  user_group[]      @relation("user_group_zm_codeTouser")
+  user_image                           user_image?
   user_information                     user_information?
 }
 
@@ -117,6 +118,15 @@ model doctor_rx {
   @@index([brand_id], map: "doctor_rx_brand_fk")
   @@index([doctor_id], map: "doctor_rx_relation_3")
   @@index([user_id], map: "doctor_rx_user_fk")
+}
+
+model user_image {
+  user_id    String    @id @db.VarChar(6)
+  file_path  String    @db.VarChar(200)
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
+  file_name  String    @db.VarChar(100)
+  user       user      @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "user_image_relation_1")
 }
 
 enum user_role {

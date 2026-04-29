@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { getAuthUser } from "@/lib/dal";
 import MioNavMenu from "./mio-nav-menu";
+import Link from "next/link";
 
 export default async function MioNav() {
   const user = await getAuthUser();
@@ -17,7 +18,7 @@ export default async function MioNav() {
       <div className="container mx-auto py-4 px-4 w-full relative">
         <div className="flex justify-between items-center">
           {/* Profile */}
-          <div className="flex items-center gap-2">
+          <Link href={'/profile'} className="flex items-center gap-2">
             <Avatar className="p-1 bg-muted size-7">
               <AvatarImage src={"/images/user.png"} />
               <AvatarFallback>{name.charAt(0)}</AvatarFallback>
@@ -31,7 +32,7 @@ export default async function MioNav() {
                 {role} ({username})
               </p>
             </div>
-          </div>
+          </Link>
 
           <div className="flex items-center gap-1.5">
             <LogoFull width={110} />
