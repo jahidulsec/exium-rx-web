@@ -9,18 +9,18 @@ interface LogPayload {
 const isProd = process.env.NODE_ENV === "production";
 
 function formatError(error: unknown) {
-  if (error instanceof Error) {
-    return {
-      name: error.name,
-      message: error.message,
-      stack: error.stack,
-    };
-  } else if ((error as any)["name"].startsWith("Prisma")) {
+  if ((error as any)["name"].startsWith("Prisma")) {
     // control prisma error log
     return {
       name: (error as any).name,
       message: (error as any).message,
-      stack: (error as any).stack,
+      // stack: (error as any).stack,
+    };
+  } else if (error instanceof Error) {
+    return {
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
     };
   }
 
@@ -40,7 +40,7 @@ function log(level: LogLevel, payload: LogPayload) {
     console[level](logData);
   } else {
     // 👉 Replace with external service in production
-    console[level](JSON.stringify(logData));
+    console[level](logData);
   }
 }
 
