@@ -1,7 +1,7 @@
 import { Section } from "@/components/shared/section/section";
 import { SectionLoader } from "@/components/shared/skeleton/section";
 import { SectionHeadingWithBackButton } from "@/components/shared/typography/heading";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import ImageSection from "@/features/user/components/mio/image-section";
 import ProfileForm from "@/features/user/components/mio/profile-form";
 import { getUserProfile } from "@/features/user/libs/user";
 import { getUserImage } from "@/features/user/libs/user-image";
@@ -37,20 +37,18 @@ const ImageContainer = async ({ user }: { user: AuthUser }) => {
   const res = await getUserImage(user.userId);
 
   return (
-    <div className="flex justify-center items-center my-6">
-      {JSON.stringify(res.data)}
-      <Avatar className="size-16 p-2 bg-background">
-        <AvatarImage src={"/images/user.png"} />
-        <AvatarFallback>a</AvatarFallback>
-      </Avatar>
-    </div>
+    <ImageSection
+      userId={user.userId}
+      userFullName={user.name}
+      filePath={res.data?.file_path}
+    />
   );
 };
 
 const ProfileFormContainer = async ({ user }: { user: AuthUser }) => {
   const res = await getUserProfile(user.userId);
 
-  if(!res.data) return <>No data</>
+  if (!res.data) return <>No data</>;
 
   return <ProfileForm profile={res.data} />;
 };

@@ -2,6 +2,8 @@ import { userRoleEnum } from "@/schema/common";
 import { bdPhoneRegex } from "@/utils/regex";
 import z from "zod";
 
+const MAX_FILE_SIZE = 500 * 1024; // 500KB
+
 export const userSchema = z.object({
   user_id: z.string().min(1),
   password: z.string().min(6),
@@ -13,7 +15,7 @@ export const userInformationSchema = z.object({
   sap_id: z.string().min(1),
   full_name: z.string().min(1),
   designation: z.string().min(1),
-  mobile: z.string().min(1).optional(),
+  mobile: z.string().regex(bdPhoneRegex, "Invalid phone number").optional(),
   email: z.email().optional(),
   team: z.string().min(1).optional(),
   area_code: z.string().min(1),
@@ -97,6 +99,21 @@ export const userWithInformationSchema = userSchema
   .extend(userInformationSchema.shape)
   .omit({ user_code: true });
 
+export const userImageSchema = z.object({
+  user_id: z.string(),
+  image: z
+    .instanceof(File, { message: "Upload a valid file" })
+    .refine(
+      (file) => file.type.toLowerCase().startsWith("image/"),
+      "Upload only jpg, png",
+    )
+    .refine(
+      (file) => file.size < MAX_FILE_SIZE,
+      "File size is not more than 500 KB",
+    ), // 500 Kb,
+});
+
 export type BulkUsersType = z.infer<typeof bulkUsersSchema>;
 export type UserWithInformationType = z.infer<typeof userWithInformationSchema>;
 export type UserProfileType = z.infer<typeof userProfileSchema>;
+export type UserImageType = z.infer<typeof userImageSchema>;
