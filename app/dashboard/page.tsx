@@ -8,7 +8,7 @@ export default function AdminDashboardPage() {
   return (
     <div>
       <Section>
-        <ExcelUploadButton action={createUsers} />
+        <ExcelUploadButton action={createDoctors} />
       </Section>
     </div>
   );
