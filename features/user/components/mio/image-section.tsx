@@ -29,10 +29,15 @@ export default function ImageSection({
   userFullName?: string;
 }) {
   const [open, setOpen] = React.useState(false);
+
+  const image = filePath
+    ? `/api/file?filePath=${filePath}`
+    : "/images/user.png";
+
   return (
     <div className="mx-auto my-6 relative">
       <Avatar className="size-20 p-2 bg-background">
-        <AvatarImage src={"/images/user.png"} />
+        <AvatarImage src={image} />
         <AvatarFallback>{userFullName?.charAt(0)}</AvatarFallback>
       </Avatar>
 

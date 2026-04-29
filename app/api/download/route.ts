@@ -14,7 +14,7 @@ export async function GET(
     }
 
     // get file path
-    const filePath = path.join(/* turbopackIgnore: true */ process.cwd() + file_path);
+    const filePath = path.join(/* turbopackIgnore: true */ process.cwd(), file_path);
 
 
     // check if file exists in dir
