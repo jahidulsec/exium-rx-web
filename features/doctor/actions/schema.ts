@@ -26,9 +26,6 @@ export const doctorsSchema = z.array(
             // .regex(bdPhoneRegex, "Invalid mobile number")
             .optional(),
         DrClass: z.string().optional(),
-        RxQty: z.coerce.number().optional(),
-        EMP: z.string().optional(),
-        EXM: z.string().optional(),
     }),
 );
 

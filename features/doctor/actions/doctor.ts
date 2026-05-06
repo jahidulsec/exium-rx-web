@@ -60,9 +60,6 @@ export const createDoctors = async (data: DoctorsType) => {
                     area_group: item.AreaGroup,
                     sm_area_name: item.SMAreaName,
                     dr_class: item.DrClass,
-                    rxQty: item.RxQty,
-                    emp: item.EMP,
-                    exm: item.EXM,
                 },
                 update: {
                     dr_sl: item.DrSL,
@@ -84,9 +81,6 @@ export const createDoctors = async (data: DoctorsType) => {
                     area_group: item.AreaGroup,
                     sm_area_name: item.SMAreaName,
                     dr_class: item.DrClass,
-                    rxQty: item.RxQty,
-                    emp: item.EMP,
-                    exm: item.EXM,
                 },
             });
         }
