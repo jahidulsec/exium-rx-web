@@ -3,10 +3,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
+    Drawer,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
 } from "@/components/ui/drawer";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Upload } from "lucide-react";
@@ -20,97 +20,101 @@ import { uploadUserImage } from "../../actions/user-image";
 import { toast } from "sonner";
 
 export default function ImageSection({
-  filePath,
-  userFullName,
-  userId,
+    filePath,
+    userFullName,
+    userId,
 }: {
-  userId: string;
-  filePath?: string;
-  userFullName?: string;
+    userId: string;
+    filePath?: string;
+    userFullName?: string;
 }) {
-  const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
 
-  const image = filePath
-    ? `/api/file?filePath=${filePath}`
-    : "/images/user.png";
+    const image = filePath
+        ? `/api/file?filePath=${filePath}`
+        : "/images/user.png";
 
-  return (
-    <div className="mx-auto my-6 relative">
-      <Avatar className="size-20 p-2 bg-background">
-        <AvatarImage src={image} />
-        <AvatarFallback>{userFullName?.charAt(0)}</AvatarFallback>
-      </Avatar>
+    return (
+        <div className="relative mx-auto my-6">
+            <Avatar className="bg-background size-20 p-2">
+                <AvatarImage src={image} />
+                <AvatarFallback>{userFullName?.charAt(0)}</AvatarFallback>
+            </Avatar>
 
-      <Button
-        size={"icon-sm"}
-        className="absolute -bottom-2 right-0"
-        onClick={() => setOpen(true)}
-      >
-        <Upload />
-        <span className="sr-only">Upload Image</span>
-      </Button>
+            <Button
+                size={"icon-sm"}
+                className="absolute right-0 -bottom-2"
+                onClick={() => setOpen(true)}
+            >
+                <Upload />
+                <span className="sr-only">Upload Image</span>
+            </Button>
 
-      <Drawer open={open} onOpenChange={setOpen}>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>Profile Picutre</DrawerTitle>
-          </DrawerHeader>
+            <Drawer open={open} onOpenChange={setOpen}>
+                <DrawerContent>
+                    <DrawerHeader>
+                        <DrawerTitle>Profile Picutre</DrawerTitle>
+                    </DrawerHeader>
 
-          {/* form */}
-          <div className="max-w-sm mx-auto w-full my-10">
-            <ImageForm userId={userId} />
-          </div>
-        </DrawerContent>
-      </Drawer>
-    </div>
-  );
+                    {/* form */}
+                    <div className="mx-auto my-10 w-full max-w-sm">
+                        <ImageForm userId={userId} />
+                    </div>
+                </DrawerContent>
+            </Drawer>
+        </div>
+    );
 }
 
 const ImageForm = ({ userId }: { userId: string }) => {
-  const form = useForm<UserImageType>({
-    resolver: zodResolver(userImageSchema),
-    defaultValues: {
-      user_id: userId,
-    },
-  });
+    const form = useForm<UserImageType>({
+        resolver: zodResolver(userImageSchema),
+        defaultValues: {
+            user_id: userId,
+        },
+    });
 
-  const onSubmit = async (data: UserImageType) => {
-    const res = await uploadUserImage(data);
+    const onSubmit = async (data: UserImageType) => {
+        const res = await uploadUserImage(data);
 
-    toast[res.success ? "success" : "info"](res.message);
-  };
+        toast[res.success ? "success" : "info"](res.message);
+    };
 
-  return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
-      <FieldGroup>
-        <Controller
-          control={form.control}
-          name="image"
-          render={({ field, fieldState }) => {
-            const { value, ...rest } = field;
-            return (
-              <Field>
-                <FieldLabel htmlFor={field.name}>Upload</FieldLabel>
-                <Input
-                  type="file"
-                  {...rest}
-                  id={field.name}
-                  aria-invalid={fieldState.invalid}
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
+    return (
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FieldGroup>
+                <Controller
+                    control={form.control}
+                    name="image"
+                    render={({ field, fieldState }) => {
+                        const { value, ...rest } = field;
+                        return (
+                            <Field>
+                                <FieldLabel htmlFor={field.name}>
+                                    Upload
+                                </FieldLabel>
+                                <Input
+                                    type="file"
+                                    {...rest}
+                                    id={field.name}
+                                    aria-invalid={fieldState.invalid}
+                                    onChange={e => {
+                                        const file = e.target.files?.[0];
 
-                    if (file) {
-                      field.onChange(file);
-                    }
-                  }}
+                                        if (file) {
+                                            field.onChange(file);
+                                        }
+                                    }}
+                                />
+                            </Field>
+                        );
+                    }}
                 />
-              </Field>
-            );
-          }}
-        />
 
-        <FormButton isPending={form.formState.isSubmitting}>Upload</FormButton>
-      </FieldGroup>
-    </form>
-  );
+                <FormButton isPending={form.formState.isSubmitting}>
+                    Upload
+                </FormButton>
+            </FieldGroup>
+        </form>
+    );
 };

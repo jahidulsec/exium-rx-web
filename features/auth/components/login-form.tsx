@@ -3,11 +3,11 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
@@ -21,109 +21,121 @@ import { PasswordInput } from "@/components/shared/inputs/password";
 import { Asterisk } from "lucide-react";
 
 export function LoginForm({
-  className,
-  ...props
+    className,
+    ...props
 }: React.ComponentProps<"div">) {
-  const form = useForm<LoginType>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      user_id: "",
-      password: "",
-    },
-  });
+    const form = useForm<LoginType>({
+        resolver: zodResolver(LoginSchema),
+        defaultValues: {
+            user_id: "",
+            password: "",
+        },
+    });
 
-  const router = useRouter();
+    const router = useRouter();
 
-  async function onSubmit(data: LoginType) {
-    const res = await userLogin(data);
-    toast[res.success ? "success" : "error"](res.message);
+    async function onSubmit(data: LoginType) {
+        const res = await userLogin(data);
+        toast[res.success ? "success" : "error"](res.message);
 
-    if (res.success) {
-      if (res.data?.role === "mio") {
-        router.replace("/");
-      } else {
-        router.replace("/dashboard");
-      }
+        if (res.success) {
+            if (res.data?.role === "mio") {
+                router.replace("/");
+            } else {
+                router.replace("/dashboard");
+            }
+        }
     }
-  }
 
-  return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FieldGroup>
-          <div className="flex flex-col items-center gap-2 text-center">
-            <a
-              href="#"
-              className="flex flex-col items-center gap-2 font-medium"
-            >
-              <div className="flex items-center justify-center rounded-md">
-                <Image
-                  width={120}
-                  height={100}
-                  src={"/logos/Exium-Mups-1.svg"}
-                  alt="Exium Logo"
-                />
-              </div>
-              <span className="sr-only">Exium Rx Generation</span>
-            </a>
-            <h1 className="text-xl font-bold">
-              Welcome to Exium Rx Generation
-            </h1>
-            <FieldDescription>
-              Please login with your SAP ID and password
-            </FieldDescription>
-          </div>
-          <FieldGroup>
-            <Controller
-              control={form.control}
-              name="user_id"
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>
-                    User ID <Asterisk size={10} className="text-destructive" />
-                  </FieldLabel>
-                  <Input
-                    {...field}
-                    id={field.name}
-                    aria-invalid={fieldState.invalid}
-                    placeholder="SAP ID"
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-          </FieldGroup>
-          <FieldGroup>
-            <Controller
-              control={form.control}
-              name="password"
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>
-                    Password <Asterisk size={10} className="text-destructive" />
-                  </FieldLabel>
-                  <PasswordInput
-                    {...field}
-                    id={field.name}
-                    aria-invalid={fieldState.invalid}
-                    placeholder="PASSWORD"
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-          </FieldGroup>
-          <Field>
-            <Button type="submit">Login</Button>
-          </Field>
-        </FieldGroup>
-      </form>
-    </div>
-  );
+    return (
+        <div className={cn("flex flex-col gap-6", className)} {...props}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FieldGroup>
+                    <div className="flex flex-col items-center gap-2 text-center">
+                        <a
+                            href="#"
+                            className="flex flex-col items-center gap-2 font-medium"
+                        >
+                            <div className="flex items-center justify-center rounded-md">
+                                <Image
+                                    width={120}
+                                    height={100}
+                                    src={"/logos/Exium-Mups-1.svg"}
+                                    alt="Exium Logo"
+                                />
+                            </div>
+                            <span className="sr-only">Exium Rx Generation</span>
+                        </a>
+                        <h1 className="text-xl font-bold">
+                            Welcome to Exium Rx Generation
+                        </h1>
+                        <FieldDescription>
+                            Please login with your SAP ID and password
+                        </FieldDescription>
+                    </div>
+                    <FieldGroup>
+                        <Controller
+                            control={form.control}
+                            name="user_id"
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel htmlFor={field.name}>
+                                        User ID{" "}
+                                        <Asterisk
+                                            size={10}
+                                            className="text-destructive"
+                                        />
+                                    </FieldLabel>
+                                    <Input
+                                        {...field}
+                                        id={field.name}
+                                        aria-invalid={fieldState.invalid}
+                                        placeholder="SAP ID"
+                                        autoComplete="off"
+                                    />
+                                    {fieldState.invalid && (
+                                        <FieldError
+                                            errors={[fieldState.error]}
+                                        />
+                                    )}
+                                </Field>
+                            )}
+                        />
+                    </FieldGroup>
+                    <FieldGroup>
+                        <Controller
+                            control={form.control}
+                            name="password"
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel htmlFor={field.name}>
+                                        Password{" "}
+                                        <Asterisk
+                                            size={10}
+                                            className="text-destructive"
+                                        />
+                                    </FieldLabel>
+                                    <PasswordInput
+                                        {...field}
+                                        id={field.name}
+                                        aria-invalid={fieldState.invalid}
+                                        placeholder="PASSWORD"
+                                        autoComplete="off"
+                                    />
+                                    {fieldState.invalid && (
+                                        <FieldError
+                                            errors={[fieldState.error]}
+                                        />
+                                    )}
+                                </Field>
+                            )}
+                        />
+                    </FieldGroup>
+                    <Field>
+                        <Button type="submit">Login</Button>
+                    </Field>
+                </FieldGroup>
+            </form>
+        </div>
+    );
 }

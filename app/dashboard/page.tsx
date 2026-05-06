@@ -5,11 +5,11 @@ import { createUsers } from "@/features/user/actions/user";
 import React from "react";
 
 export default function AdminDashboardPage() {
-  return (
-    <div>
-      <Section>
-        <ExcelUploadButton action={createDoctors} />
-      </Section>
-    </div>
-  );
+    return (
+        <div>
+            <Section>
+                <ExcelUploadButton action={createDoctors} />
+            </Section>
+        </div>
+    );
 }

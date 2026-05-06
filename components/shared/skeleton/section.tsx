@@ -1,11 +1,11 @@
 import { Loader } from "lucide-react";
 
 const SectionLoader = () => {
-  return (
-    <div className="flex justify-center items-center w-full min-h-40">
-      <Loader className="text-primary animate-spin size-8" />
-    </div>
-  );
+    return (
+        <div className="flex min-h-40 w-full items-center justify-center">
+            <Loader className="text-primary size-8 animate-spin" />
+        </div>
+    );
 };
 
 export { SectionLoader };

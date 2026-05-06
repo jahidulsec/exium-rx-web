@@ -2,13 +2,13 @@
 
 import React from "react";
 import {
-  Select as SelectUi,
-  SelectTrigger,
-  SelectValue,
-  SelectGroup,
-  SelectContent,
-  SelectItem,
-  SelectLabel,
+    Select as SelectUi,
+    SelectTrigger,
+    SelectValue,
+    SelectGroup,
+    SelectContent,
+    SelectItem,
+    SelectLabel,
 } from "@/components/ui/select";
 import { SelectProps } from "@radix-ui/react-select";
 import { cn } from "@/lib/utils";
@@ -18,89 +18,91 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 
 const Select = ({
-  data,
-  className,
-  placeholder,
-  id,
-  paramsName,
-  pending,
-  onValueChange,
-  ...props
+    data,
+    className,
+    placeholder,
+    id,
+    paramsName,
+    pending,
+    onValueChange,
+    ...props
 }: React.ComponentProps<React.FC<SelectProps>> & {
-  className?: string;
-  placeholder?: string;
-  id?: string;
-  data: { label: string; value: string; disabled?: boolean }[];
-  paramsName?: string;
-  pending?: boolean;
+    className?: string;
+    placeholder?: string;
+    id?: string;
+    data: { label: string; value: string; disabled?: boolean }[];
+    paramsName?: string;
+    pending?: boolean;
 }) => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const router = useRouter();
 
-  return (
-    <SelectUi
-      {...props}
-      onValueChange={(value) => {
-        if (value && paramsName) {
-          const params = new URLSearchParams(searchParams);
-          params.set(paramsName, value);
-          router.push(`${pathname}?${params.toString()}`);
-        }
+    return (
+        <SelectUi
+            {...props}
+            onValueChange={value => {
+                if (value && paramsName) {
+                    const params = new URLSearchParams(searchParams);
+                    params.set(paramsName, value);
+                    router.push(`${pathname}?${params.toString()}`);
+                }
 
-        onValueChange?.(value);
-      }}
-      defaultValue={
-        props.defaultValue ??
-        (paramsName ? (searchParams.get(paramsName) ?? undefined) : undefined)
-      }
-    >
-      <SelectTrigger
-        className={cn("[&_svg]:text-primary bg-muted", className)}
-      >
-        <SelectValue id={id} placeholder={placeholder ?? "Select"} />
-      </SelectTrigger>
-
-      {/* clear button for searchparams select */}
-      {paramsName && searchParams.has(paramsName) && (
-        <Button
-          variant={"outline"}
-          size={"icon"}
-          className="-ml-1.5"
-          title="Clear"
-          onClick={() => {
-            const params = new URLSearchParams(searchParams);
-            params.delete(paramsName);
-            router.push(`${pathname}?${params.toString()}`);
-          }}
+                onValueChange?.(value);
+            }}
+            defaultValue={
+                props.defaultValue ??
+                (paramsName
+                    ? (searchParams.get(paramsName) ?? undefined)
+                    : undefined)
+            }
         >
-          <X />
-          <span className="sr-only">Clear</span>
-        </Button>
-      )}
+            <SelectTrigger
+                className={cn("[&_svg]:text-primary bg-muted", className)}
+            >
+                <SelectValue id={id} placeholder={placeholder ?? "Select"} />
+            </SelectTrigger>
 
-      {/* list */}
-      <SelectContent>
-        <SelectGroup>
-          {data.length > 0 ? (
-            data.map((item) => (
-              <SelectItem
-                disabled={item.disabled}
-                key={item.value}
-                value={item.value}
-              >
-                {item.label}
-              </SelectItem>
-            ))
-          ) : (
-            <SelectLabel className="text-xs text-muted-foreground">
-              {pending ? "Loading..." : "No data."}
-            </SelectLabel>
-          )}
-        </SelectGroup>
-      </SelectContent>
-    </SelectUi>
-  );
+            {/* clear button for searchparams select */}
+            {paramsName && searchParams.has(paramsName) && (
+                <Button
+                    variant={"outline"}
+                    size={"icon"}
+                    className="-ml-1.5"
+                    title="Clear"
+                    onClick={() => {
+                        const params = new URLSearchParams(searchParams);
+                        params.delete(paramsName);
+                        router.push(`${pathname}?${params.toString()}`);
+                    }}
+                >
+                    <X />
+                    <span className="sr-only">Clear</span>
+                </Button>
+            )}
+
+            {/* list */}
+            <SelectContent>
+                <SelectGroup>
+                    {data.length > 0 ? (
+                        data.map(item => (
+                            <SelectItem
+                                disabled={item.disabled}
+                                key={item.value}
+                                value={item.value}
+                            >
+                                {item.label}
+                            </SelectItem>
+                        ))
+                    ) : (
+                        <SelectLabel className="text-muted-foreground text-xs">
+                            {pending ? "Loading..." : "No data."}
+                        </SelectLabel>
+                    )}
+                </SelectGroup>
+            </SelectContent>
+        </SelectUi>
+    );
 };
 
 export { Select };

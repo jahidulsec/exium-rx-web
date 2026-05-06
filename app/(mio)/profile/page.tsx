@@ -10,45 +10,45 @@ import { AuthUser } from "@/types/auth-user";
 import React, { Suspense } from "react";
 
 export default async function MioProfilePage() {
-  const user = await getAuthUser();
+    const user = await getAuthUser();
 
-  return (
-    <>
-      <Section>
-        <SectionHeadingWithBackButton title="Profile" />
+    return (
+        <>
+            <Section>
+                <SectionHeadingWithBackButton title="Profile" />
 
-        <div className="flex flex-col gap-6">
-          {/* image section */}
-          <Suspense fallback={<SectionLoader />}>
-            <ImageContainer user={user as AuthUser} />
-          </Suspense>
+                <div className="flex flex-col gap-6">
+                    {/* image section */}
+                    <Suspense fallback={<SectionLoader />}>
+                        <ImageContainer user={user as AuthUser} />
+                    </Suspense>
 
-          {/* form section */}
-          <Suspense fallback={<SectionLoader />}>
-            <ProfileFormContainer user={user as AuthUser} />
-          </Suspense>
-        </div>
-      </Section>
-    </>
-  );
+                    {/* form section */}
+                    <Suspense fallback={<SectionLoader />}>
+                        <ProfileFormContainer user={user as AuthUser} />
+                    </Suspense>
+                </div>
+            </Section>
+        </>
+    );
 }
 
 const ImageContainer = async ({ user }: { user: AuthUser }) => {
-  const res = await getUserImage(user.userId);
+    const res = await getUserImage(user.userId);
 
-  return (
-    <ImageSection
-      userId={user.userId}
-      userFullName={user.name}
-      filePath={res.data?.file_path}
-    />
-  );
+    return (
+        <ImageSection
+            userId={user.userId}
+            userFullName={user.name}
+            filePath={res.data?.file_path}
+        />
+    );
 };
 
 const ProfileFormContainer = async ({ user }: { user: AuthUser }) => {
-  const res = await getUserProfile(user.userId);
+    const res = await getUserProfile(user.userId);
 
-  if (!res.data) return <>No data</>;
+    if (!res.data) return <>No data</>;
 
-  return <ProfileForm profile={res.data} />;
+    return <ProfileForm profile={res.data} />;
 };

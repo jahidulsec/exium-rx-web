@@ -3,71 +3,83 @@ import React from "react";
 import { BackButton } from "../button/button";
 
 const SectionHeading = ({
-  className,
-  ...props
+    className,
+    ...props
 }: React.ComponentProps<"h2">) => {
-  return (
-    <h2
-      className={cn("text-xl font-semibold flex items-center gap-2", className)}
-      {...props}
-    />
-  );
+    return (
+        <h2
+            className={cn(
+                "flex items-center gap-2 text-xl font-semibold",
+                className,
+            )}
+            {...props}
+        />
+    );
 };
 
 const SectionHeadingIcon = ({
-  className,
-  ...props
+    className,
+    ...props
 }: React.ComponentProps<"div">) => {
-  return (
-    <div
-      className={cn(
-        "h-8 aspect-square [&>svg]:size-5 [&>svg]:fill-secondary/15 flex justify-center items-center bg-secondary-foreground text-secondary rounded-full",
-        className,
-      )}
-      {...props}
-    />
-  );
+    return (
+        <div
+            className={cn(
+                "[&>svg]:fill-secondary/15 bg-secondary-foreground text-secondary flex aspect-square h-8 items-center justify-center rounded-full [&>svg]:size-5",
+                className,
+            )}
+            {...props}
+        />
+    );
 };
 
 const SectionSubTitle = ({
-  className,
-  ...props
+    className,
+    ...props
 }: React.ComponentProps<"p">) => {
-  return (
-    <p className={cn("text-sm text-muted-foreground", className)} {...props} />
-  );
+    return (
+        <p
+            className={cn("text-muted-foreground text-sm", className)}
+            {...props}
+        />
+    );
 };
 
 const SectionHeadingWithBackButton = ({
-  title,
-  className,
-  subtitle,
-  ...props
+    title,
+    className,
+    subtitle,
+    ...props
 }: React.ComponentProps<"div"> & { subtitle?: string }) => {
-  return (
-    <div className={cn("flex gap-2", className)} {...props}>
-      <BackButton />
-      <div className="flex flex-col gap-0">
-        <SectionHeading>{title}</SectionHeading>
-        <SectionSubTitle>{subtitle}</SectionSubTitle>
-      </div>
-    </div>
-  );
+    return (
+        <div className={cn("flex gap-2", className)} {...props}>
+            <BackButton />
+            <div className="flex flex-col gap-0">
+                <SectionHeading>{title}</SectionHeading>
+                <SectionSubTitle>{subtitle}</SectionSubTitle>
+            </div>
+        </div>
+    );
 };
 
 const SectionHeading2 = ({
-  className,
-  ...props
+    className,
+    ...props
 }: React.ComponentProps<"h2">) => {
-  return (
-    <h2 className={cn("w-full text-2xl font-medium text-secondary", className)} {...props} />
-  );
+    return (
+        <h2
+            className={cn(
+                "text-secondary w-full text-2xl font-medium",
+                className,
+            )}
+            {...props}
+        />
+    );
 };
 
 export {
-  SectionHeading,
-  SectionHeading2,
-  SectionSubTitle,
-  SectionHeadingIcon,
-  SectionHeadingWithBackButton,
+    SectionHeading,
+    SectionHeading2,
+    SectionSubTitle,
+    SectionHeadingIcon,
+    SectionHeadingWithBackButton,
 };
