@@ -7,9 +7,12 @@ import React from "react";
 export default function NavUser() {
     return (
         <div>
-            <Button>
+            <Button
+                variant={"outline"}
+                className="border-primary"
+                size={"icon-lg"}
+            >
                 <User /> <span className="sr-only">Profile</span>
-                <div className=""></div>
             </Button>
         </div>
     );

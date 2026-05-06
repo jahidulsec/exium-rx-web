@@ -5,70 +5,64 @@ import { Button } from "@/components/ui/button";
 import { getAuthUser } from "@/lib/dal";
 import { redirect } from "next/navigation";
 import NavUser from "./nav-user";
+import NavSidebar from "./nav-sidebar";
+import NavButton from "./nav-button";
 
 const navList = {
-    superadmin: [
-        {
-            name: "Dashboard",
-            href: "/dashboard",
-            isActive: true,
-        },
-        {
-            name: "Mio",
-            href: "/dashboard/mio",
-            isActive: false,
-        },
-        {
-            name: "Doctor",
-            isActive: false,
-            href: "/dashboard/doctor",
-        },
-    ],
-    rm: [
-        {
-            name: "Dashboard",
-            href: "/dashboard",
-            isActive: true,
-        },
-        {
-            name: "Report",
-            href: "/dashboard/report",
-            isActive: false,
-        },
-    ],
+  superadmin: [
+    {
+      name: "Dashboard",
+      href: "/dashboard",
+    },
+    {
+      name: "Mio",
+      href: "/dashboard/mio",
+    },
+    {
+      name: "Doctor",
+      href: "/dashboard/doctor",
+    },
+  ],
+  rm: [
+    {
+      name: "Dashboard",
+      href: "/dashboard",
+    },
+    {
+      name: "Report",
+      href: "/dashboard/report",
+    },
+  ],
 };
 
 export default async function AppNav() {
-    const user = await getAuthUser();
+  const user = await getAuthUser();
 
-    if (!["superadmin", "rm"].includes(user?.role as string))
-        redirect("/login");
+  if (!["superadmin", "rm"].includes(user?.role as string)) redirect("/login");
 
-    return (
-        <header className="sticky top-0 container mx-auto px-6 py-3">
-            <div className="flex items-center justify-between gap-5">
-                {/* logo */}
-                <LogoFull />
+  const menu = navList[user?.role as "rm"];
 
-                <nav className="flex items-center gap-2">
-                    <ul className="bg-background flex items-center rounded-full p-1">
-                        {navList[user?.role as "rm"].map(item => (
-                            <li key={item.href}>
-                                <Button
-                                    asChild
-                                    variant={
-                                        item.isActive ? "default" : "ghost"
-                                    }
-                                >
-                                    <Link href="#">{item.name}</Link>
-                                </Button>
-                            </li>
-                        ))}
-                    </ul>
+  return (
+    <header className="sticky top-0 container mx-auto px-6 py-3">
+      <div className="flex items-center justify-between gap-5">
+        {/* logo */}
+        <div className="flex items-center gap-2">
+          <NavSidebar menu={menu} />
+          <LogoFull />
+        </div>
 
-                    <NavUser />
-                </nav>
-            </div>
-        </header>
-    );
+        <nav className="flex items-center gap-2">
+          <ul className="bg-background hidden items-center rounded-full p-1 md:flex">
+            {menu.map(item => (
+              <li key={item.href}>
+                <NavButton {...item} />
+              </li>
+            ))}
+          </ul>
+
+          <NavUser />
+        </nav>
+      </div>
+    </header>
+  );
 }
