@@ -4,30 +4,23 @@ import { db } from "@/config/db";
 import { Prisma } from "@/lib/generated/prisma";
 import { apiResponse } from "@/lib/response";
 import { doctorRxQuerySchema, DoctorRxQuerySchemaType } from "../actions/schema";
+import { endOfDay, startOfDay } from "date-fns";
 
-export type DoctorRxMulti = Prisma.doctor_rxGetPayload<{
-    include: {
-        doctor: {
-            select: {
-                full_name: true,
-            }
-        },
-        user: {
-            select: {
-                user_information: {
-                    select: {
-                        full_name: true,
-                        sap_area_code: true
-                    }
-                }
-            }
-        }
-    },
-}>
 
 export const getDoctorRxs = async (query: DoctorRxQuerySchemaType) => {
+    let startDate: Date | undefined = undefined;
+    let endDate: Date | undefined = undefined;
+
     try {
-        const { search, ...validatedQuery } = doctorRxQuerySchema.parse(query);
+        const { search, start, end, ...validatedQuery } = doctorRxQuerySchema.parse(query);
+
+        if (start) {
+            startDate = startOfDay(start);
+        }
+
+        if (end) {
+            endDate = endOfDay(end);
+        }
 
         const filter: Prisma.doctor_rxWhereInput = {
             ...(search && {
@@ -78,6 +71,12 @@ export const getDoctorRxs = async (query: DoctorRxQuerySchemaType) => {
             ...(validatedQuery.status && {
                 status: validatedQuery.status
             }),
+            ...(startDate && endDate && {
+                created_at: {
+                    gte: startDate,
+                    lte: endDate
+                }
+            })
         };
 
         const [data, count] = await Promise.all([

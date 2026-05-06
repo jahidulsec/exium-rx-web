@@ -26,6 +26,33 @@ export function DatePickerWithRange({ className }: { className?: string }) {
   const pathname = usePathname();
   const router = useRouter();
 
+  React.useEffect(() => {
+    const start = searchParams.get("start");
+    const end = searchParams.get("end");
+
+    if (!start || !end) return;
+
+    const fromDate = new Date(start);
+    const toDate = new Date(end);
+
+    if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) return;
+
+    setDate(prev => {
+      // avoid unnecessary state updates
+      if (
+        prev?.from?.getTime() === fromDate.getTime() &&
+        prev?.to?.getTime() === toDate.getTime()
+      ) {
+        return prev;
+      }
+
+      return {
+        from: fromDate,
+        to: toDate,
+      };
+    });
+  }, [searchParams]);
+
   return (
     <Popover>
       <PopoverTrigger asChild>

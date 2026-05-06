@@ -5,11 +5,12 @@ import {
   useTableSerialColumn,
 } from "@/components/shared/table/data-table";
 import { ColumnDef } from "@tanstack/react-table";
-import { DoctorRxMulti } from "../libs/rx";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react";
+import { getDisableStatusOnExpiredDate } from "@/utils/helper";
+import { DoctorRxMulti } from "@/types/rx";
 
 export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
   const serialColumns = useTableSerialColumn<DoctorRxMulti>();
@@ -71,7 +72,10 @@ export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
         const value = row.original;
 
         return (
-          <p>{format(value.created_at as Date, "dd LLL yyyy - h:mm aaa")}</p>
+          <p>
+            {value.created_at &&
+              format(value.created_at, "dd LLL yyyy - h:mm aaa")}
+          </p>
         );
       },
     },
@@ -84,10 +88,16 @@ export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
 
         return (
           <p className="flex justify-end">
-            <Button variant={"secondary"} size={"sm"}>
-              <Edit />
-              Edit
-            </Button>
+            {value.created_at &&
+            getDisableStatusOnExpiredDate(
+              value.created_at as Date,
+              7,
+            ) ? null : (
+              <Button variant={"secondary"} size={"sm"}>
+                <Edit />
+                Edit
+              </Button>
+            )}
           </p>
         );
       },

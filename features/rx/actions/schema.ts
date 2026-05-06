@@ -15,6 +15,8 @@ export const doctorRxQuerySchema = baseQuerySchema.extend({
     sap_zone_code: z.string().optional(),
     sap_sm_area_code: z.string().optional(),
     status: z.enum(['approved', 'disapproved', "pending"]).optional(),
+    start: z.coerce.date().optional(),
+    end: z.coerce.date().optional(),
 })
 
 export type DoctorRxQuerySchemaType = z.infer<typeof doctorRxQuerySchema>;

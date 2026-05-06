@@ -78,6 +78,8 @@ const DataTable = async ({
     search: search?.toString(),
     sap_region_code: role === "rm" ? areaCode : undefined,
     status: status?.toString() as "pending",
+    start: start?.toString() as any,
+    end: end?.toString() as any
   });
   return (
     <>
