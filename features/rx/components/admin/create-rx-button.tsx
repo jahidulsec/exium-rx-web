@@ -4,17 +4,17 @@ import { FormSheet } from "@/components/shared/sheet/sheet";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import React from "react";
-import RxForm from "../form";
 import { DoctorMulti } from "@/features/doctor/libs/doctor";
 import { AuthUser } from "@/types/auth-user";
 import { toast } from "sonner";
+import RxForm from "./form";
 
 export default function CreateRxButton({
   doctor,
   user,
 }: {
   doctor?: DoctorMulti;
-  user?: AuthUser;
+  user: AuthUser;
 }) {
   const [open, setOpen] = React.useState(false);
   return (
@@ -36,7 +36,7 @@ export default function CreateRxButton({
           onError={message => {
             toast.info(message);
           }}
-          prevData={{ doctor_id: doctor?.id, user_id: user?.userId }}
+          authUser={user}
         />
       </FormSheet>
     </>

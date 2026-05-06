@@ -2,10 +2,10 @@
 
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { doctorRxSchema, DoctorRxType } from "../actions/schema";
+import { doctorRxSchema, DoctorRxType } from "../../actions/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { brand, doctor_rx } from "@/lib/generated/prisma";
-import { createDoctorRx } from "../actions/rx";
+import { createDoctorRx } from "../../actions/rx";
 import { FormButton } from "@/components/shared/button/button";
 import {
     Field,

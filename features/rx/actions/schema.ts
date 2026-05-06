@@ -3,7 +3,7 @@ import z from "zod";
 
 export const doctorRxSchema = z.object({
     user_id: z.string(),
-    brand_id: z.number(),
+    brand_id: z.number().optional(),
     doctor_id: z.number(),
     quantity: z.number(),
     rx_date: z.date(),

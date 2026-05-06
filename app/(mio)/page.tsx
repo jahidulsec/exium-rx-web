@@ -1,6 +1,5 @@
 import {
     Card,
-    CardAction,
     CardContent,
     CardDescription,
     CardHeader,
@@ -43,7 +42,7 @@ export default async function MioHomePage({
                             Exium Rx Generation
                         </CardTitle>
                         <CardDescription>
-                            Overview of listed doctors with RX entries
+                            Overview of listed doctors with Rx Entries
                         </CardDescription>
                         <SearchForm
                             className="mt-6"

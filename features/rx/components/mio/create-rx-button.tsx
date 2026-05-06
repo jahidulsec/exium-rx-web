@@ -4,7 +4,7 @@ import { FormSheet } from "@/components/shared/sheet/sheet";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import React from "react";
-import RxForm from "../form";
+import RxForm from "./form";
 import { DoctorMulti } from "@/features/doctor/libs/doctor";
 import { AuthUser } from "@/types/auth-user";
 import { toast } from "sonner";

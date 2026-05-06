@@ -9,6 +9,7 @@ import { startOfDay, endOfDay } from "date-fns";
 
 const doctorQuerySchema = baseQuerySchema.extend({
     sapAreaCode: z.string().optional(),
+    sapRegionCode: z.string().optional(),
     rxDate: z.date().optional(),
 });
 
@@ -38,20 +39,30 @@ export const getDoctors = async (query: DoctorQueryType) => {
             endDate = endOfDay(validatedParams.rxDate);
         }
 
+        console.log(validatedParams)
+
         const filter: Prisma.doctorWhereInput = {
             ...(validatedParams.search && {
                 OR: [
                     {
-                        dr_child_id: validatedParams.search,
+                        full_name: {
+                            contains: validatedParams.search,
+                        },
                     },
                     {
-                        full_name: {
-                            startsWith: validatedParams.search,
+                        dr_child_id: {
+                            contains: validatedParams.search
+                        },
+                    },
+                    {
+                        dr_master_id: {
+                            contains: validatedParams.search
                         },
                     },
                 ],
             }),
             sap_area_code: validatedParams.sapAreaCode,
+            sap_region_code: validatedParams.sapRegionCode,
         };
 
         const [data, count] = await Promise.all([
