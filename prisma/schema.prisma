@@ -86,9 +86,6 @@ model doctor {
   area_name        String      @db.VarChar(50)
   area_group       String      @db.VarChar(2)
   dr_class         String?     @db.VarChar(2)
-  rxQty            Int?
-  emp              String?     @db.VarChar(4)
-  exm              String?     @db.VarChar(4)
   created_at       DateTime?   @default(now()) @db.Timestamp(0)
   updated_at       DateTime?   @default(now()) @db.Timestamp(0)
   doctor_rx        doctor_rx[]
@@ -106,13 +103,13 @@ model doctor_rx {
   id         Int               @id @default(autoincrement())
   user_id    String            @db.VarChar(6)
   doctor_id  Int
-  brand_id   Int
+  brand_id   Int?
   quantity   Int
   rx_date    DateTime          @db.Timestamp(0)
   created_at DateTime?         @default(now()) @db.Timestamp(0)
   updated_at DateTime?         @default(now()) @db.Timestamp(0)
   status     doctor_rx_status? @default(pending)
-  brand      brand             @relation(fields: [brand_id], references: [id], map: "doctor_rx_brand_fk")
+  brand      brand?            @relation(fields: [brand_id], references: [id], onDelete: Restrict, map: "doctor_rx_brand_fk")
   doctor     doctor            @relation(fields: [doctor_id], references: [id], map: "doctor_rx_relation_3")
   user       user              @relation(fields: [user_id], references: [user_id], map: "doctor_rx_user_fk")
 
