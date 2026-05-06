@@ -1,6 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
-import React from "react";
 import { DoctorMulti } from "../../libs/doctor";
 import CreateRxButton from "@/features/rx/components/mio/create-rx-button";
 import { AuthUser } from "@/types/auth-user";
