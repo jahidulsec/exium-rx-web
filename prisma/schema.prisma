@@ -92,26 +92,28 @@ model doctor {
 }
 
 model brand {
-  id         Int         @id @default(autoincrement())
-  name       String      @db.VarChar(100)
-  created_at DateTime?   @default(now()) @db.Timestamp(0)
-  updated_at DateTime?   @default(now()) @db.Timestamp(0)
-  doctor_rx  doctor_rx[]
+  id                Int                 @id @default(autoincrement())
+  name              String              @db.VarChar(100)
+  created_at        DateTime?           @default(now()) @db.Timestamp(0)
+  updated_at        DateTime?           @default(now()) @db.Timestamp(0)
+  doctor_rx         doctor_rx[]
+  doctor_rx_history doctor_rx_history[]
 }
 
 model doctor_rx {
-  id         Int               @id @default(autoincrement())
-  user_id    String            @db.VarChar(6)
-  doctor_id  Int
-  brand_id   Int?
-  quantity   Int
-  rx_date    DateTime          @db.Timestamp(0)
-  created_at DateTime?         @default(now()) @db.Timestamp(0)
-  updated_at DateTime?         @default(now()) @db.Timestamp(0)
-  status     doctor_rx_status? @default(pending)
-  brand      brand?            @relation(fields: [brand_id], references: [id], onDelete: Restrict, map: "doctor_rx_brand_fk")
-  doctor     doctor            @relation(fields: [doctor_id], references: [id], map: "doctor_rx_relation_3")
-  user       user              @relation(fields: [user_id], references: [user_id], map: "doctor_rx_user_fk")
+  id                Int                 @id @default(autoincrement())
+  user_id           String              @db.VarChar(6)
+  doctor_id         Int
+  rx_date           DateTime            @db.Timestamp(0)
+  created_at        DateTime?           @default(now()) @db.Timestamp(0)
+  updated_at        DateTime?           @default(now()) @db.Timestamp(0)
+  status            doctor_rx_status?   @default(pending)
+  quantity          Int
+  brand_id          Int?
+  brand             brand?              @relation(fields: [brand_id], references: [id], onDelete: Restrict, map: "doctor_rx_brand_fk")
+  doctor            doctor              @relation(fields: [doctor_id], references: [id], map: "doctor_rx_relation_3")
+  user              user                @relation(fields: [user_id], references: [user_id], map: "doctor_rx_user_fk")
+  doctor_rx_history doctor_rx_history[]
 
   @@index([brand_id], map: "doctor_rx_brand_fk")
   @@index([doctor_id], map: "doctor_rx_relation_3")
@@ -125,6 +127,19 @@ model user_image {
   updated_at DateTime? @default(now()) @db.Timestamp(0)
   file_name  String    @db.VarChar(100)
   user       user      @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "user_image_relation_1")
+}
+
+model doctor_rx_history {
+  id         String    @id @db.VarChar(21) @default(nanoid())
+  rx_id      Int
+  brand_id   Int?
+  quantity   Int
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  doctor_rx  doctor_rx @relation(fields: [rx_id], references: [id], onDelete: Cascade, map: "doctor_rx_history_relation_1")
+  brand      brand?    @relation(fields: [brand_id], references: [id], onDelete: Cascade, map: "doctor_rx_history_relation_2")
+
+  @@index([brand_id], map: "idx_brand_id")
+  @@index([rx_id], map: "idx_rx_id")
 }
 
 enum user_role {
