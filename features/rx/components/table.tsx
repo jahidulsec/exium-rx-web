@@ -78,6 +78,21 @@ export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
       },
     },
     {
+      id: "rx_date",
+      header: "Rx Date",
+      cell: ({ row }) => {
+        const value = row.original;
+
+        return (
+          <p>
+            {value.rx_date &&
+              format(value.rx_date, "dd LLL yyyy")}
+          </p>
+        );
+      },
+    },
+
+    {
       id: "created_at",
       header: "Created At",
       cell: ({ row }) => {

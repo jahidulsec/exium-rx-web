@@ -18,6 +18,18 @@ const SectionHeading = ({
   );
 };
 
+const PageHeading = ({ className, ...props }: React.ComponentProps<"h1">) => {
+  return (
+    <h1
+      className={cn(
+        "flex items-center gap-2 text-3xl font-semibold",
+        className,
+      )}
+      {...props}
+    />
+  );
+};
+
 const SectionHeadingIcon = ({
   className,
   ...props
@@ -78,4 +90,5 @@ export {
   SectionHeadingIcon,
   SectionHeadingWithBackButton,
   PageTitle,
+  PageHeading,
 };

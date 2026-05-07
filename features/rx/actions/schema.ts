@@ -11,7 +11,8 @@ export const doctorRxSchema = z.object({
   status: z.enum(["approved", "disapproved", "pending"]).optional(),
 });
 
-export const doctorRxQuerySchema = baseQuerySchema.extend({
+export const doctorRxExtendedQuery = z.object({
+  search: z.string().optional(),
   sap_area_code: z.string().optional(),
   sap_region_code: z.string().optional(),
   sap_zone_code: z.string().optional(),
@@ -21,6 +22,11 @@ export const doctorRxQuerySchema = baseQuerySchema.extend({
   end: z.coerce.date().optional(),
 });
 
+export const doctorRxQuerySchema = baseQuerySchema.extend(
+  doctorRxExtendedQuery.omit({ search: true }).shape,
+);
+
 export type DoctorRxQuerySchemaType = z.infer<typeof doctorRxQuerySchema>;
 
 export type DoctorRxType = z.infer<typeof doctorRxSchema>;
+export type DoctorRxExtendedQueryType = z.infer<typeof doctorRxExtendedQuery>;

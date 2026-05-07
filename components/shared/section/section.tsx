@@ -10,7 +10,10 @@ const Section = ({ className, ...props }: React.ComponentProps<"section">) => {
 const SectionCard = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
-      className={cn("bg-background rounded-3xl border p-4 flex flex-col gap-3", className)}
+      className={cn(
+        "bg-background flex flex-col gap-3 rounded-3xl border p-4",
+        className,
+      )}
       {...props}
     />
   );
@@ -34,7 +37,25 @@ const SectionFilter = ({
 }: React.ComponentProps<"div">) => {
   return (
     <div
-      className={cn("flex items-center justify-between flex-col md:flex-row gap-5", className)}
+      className={cn(
+        "flex flex-col items-center justify-between gap-5 md:flex-row",
+        className,
+      )}
+      {...props}
+    />
+  );
+};
+
+const SectionFilterGroup = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => {
+  return (
+    <div
+      className={cn(
+        "flex flex-col md:items-center gap-3 md:flex-row",
+        className,
+      )}
       {...props}
     />
   );
@@ -47,4 +68,11 @@ const SectionContent = ({
   return <div className={cn("flex flex-col gap-6", className)} {...props} />;
 };
 
-export { Section, SectionCard, SectionHeader, SectionContent, SectionFilter };
+export {
+  Section,
+  SectionCard,
+  SectionHeader,
+  SectionContent,
+  SectionFilter,
+  SectionFilterGroup,
+};

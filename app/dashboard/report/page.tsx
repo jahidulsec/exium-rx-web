@@ -1,4 +1,6 @@
 import { ErrorBoundary } from "@/components/shared/boundary/error-boundary";
+import { BackButton } from "@/components/shared/button/button";
+import Combobox from "@/components/shared/combobox/combobox";
 import { DatePickerWithRange } from "@/components/shared/date-picker/date-range-picker";
 import { SelectStatus } from "@/components/shared/filter/status";
 import { SearchForm } from "@/components/shared/inputs/search";
@@ -8,52 +10,52 @@ import {
   SectionCard,
   SectionContent,
   SectionFilter,
-  SectionHeader,
+  SectionFilterGroup,
 } from "@/components/shared/section/section";
 import { TableSkeleton } from "@/components/shared/skeleton/table";
-import {
-  PageTitle,
-  SectionHeading,
-} from "@/components/shared/typography/heading";
+import { PageHeading } from "@/components/shared/typography/heading";
 import { getDoctors } from "@/features/doctor/libs/doctor";
-import CreateRxButton from "@/features/rx/components/admin/create-rx-button";
+import ExportButton from "@/features/rx/components/admin/export-button";
 import DoctorRxTable from "@/features/rx/components/table";
 import { getDoctorRxs } from "@/features/rx/libs/rx";
+import { getAuthUser } from "@/lib/dal";
+import { doctor } from "@/lib/generated/prisma";
 import { AuthUser } from "@/types/auth-user";
 import { SearchParams } from "@/types/search-params";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 
-export default function RMAdminHomeView({
-  user,
+export default async function AdminReportPage({
   searchParams,
 }: {
-  user: AuthUser;
   searchParams: SearchParams;
 }) {
+  const user = await getAuthUser();
+
   return (
     <div className="mt-8 flex flex-col gap-8">
       <Section>
-        <PageTitle>Hi, {user?.name}</PageTitle>
+        <div className="flex items-center gap-3">
+          <BackButton />
+          <PageHeading>Report</PageHeading>
+        </div>
       </Section>
 
       <Section>
         <SectionCard>
-          <SectionHeader>
-            <SectionHeading>Rx List</SectionHeading>
-            <CreateRxButton user={user as AuthUser} />
-          </SectionHeader>
-
           <SectionFilter>
             <div className="flex items-center gap-2">
               <DatePickerWithRange />
               <SelectStatus />
             </div>
-            <SearchForm />
+            <SectionFilterGroup>
+              <SearchForm />
+              <ExportButton />
+            </SectionFilterGroup>
           </SectionFilter>
 
           <SectionContent>
             <Suspense fallback={<TableSkeleton />}>
-              <DataTable user={user} searchParams={searchParams} />
+              <DataTable searchParams={searchParams} user={user as AuthUser} />
             </Suspense>
           </SectionContent>
         </SectionCard>

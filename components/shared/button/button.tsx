@@ -20,7 +20,7 @@ const BackButton = () => {
         <Button
             size={"icon"}
             variant={"outline"}
-            className="text-primary rounded-full"
+            className="text-secondary border-primary rounded-full"
             onClick={() => router.back()}
         >
             <ArrowLeft /> <span className="sr-only">Back to previous page</span>
