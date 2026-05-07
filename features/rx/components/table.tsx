@@ -16,6 +16,7 @@ import { FormSheet } from "@/components/shared/sheet/sheet";
 import RxForm from "./admin/form";
 import { useAuth } from "@/providers/auth-provider";
 import { AuthUser } from "@/types/auth-user";
+import { toast } from "sonner";
 
 export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
   const serialColumns = useTableSerialColumn<DoctorRxMulti>();
@@ -50,6 +51,10 @@ export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
 
         return <p>{value.user.user_information?.sap_area_code}</p>;
       },
+    },
+    {
+      accessorKey: "quantity",
+      header: "Qty.",
     },
     {
       id: "status",
@@ -120,10 +125,21 @@ export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
       <DataTable data={data} columns={columns} />
 
       {/* Form */}
-      <FormSheet open={!!edit} onOpenChange={setEdit} formTitle="Edit Doctor Rx Entry">
+      <FormSheet
+        open={!!edit}
+        onOpenChange={setEdit}
+        formTitle="Edit Doctor Rx Entry"
+      >
         <RxForm
           authUser={user as AuthUser}
           prevData={typeof edit !== "boolean" ? edit : undefined}
+          onSuccess={message => {
+            toast.success(message);
+            setEdit(false);
+          }}
+          onError={message => {
+            toast.info(message);
+          }}
         />
       </FormSheet>
     </>
