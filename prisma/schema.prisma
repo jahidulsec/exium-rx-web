@@ -130,11 +130,13 @@ model user_image {
 }
 
 model doctor_rx_history {
-  id         String    @id @db.VarChar(21) @default(nanoid())
+  id         String    @id @default(nanoid()) @db.VarChar(21)
   rx_id      Int
   brand_id   Int?
   quantity   Int
   created_at DateTime? @default(now()) @db.Timestamp(0)
+  rx_date    DateTime  @db.Timestamp(0)
+  updated_by String    @db.VarChar(6)
   doctor_rx  doctor_rx @relation(fields: [rx_id], references: [id], onDelete: Cascade, map: "doctor_rx_history_relation_1")
   brand      brand?    @relation(fields: [brand_id], references: [id], onDelete: Cascade, map: "doctor_rx_history_relation_2")
 

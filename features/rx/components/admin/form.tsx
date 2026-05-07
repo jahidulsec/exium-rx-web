@@ -14,12 +14,11 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { getBrands } from "@/features/brand/libs/brand";
-import { Select } from "@/components/shared/select/select";
-import useFetch from "@/hooks/use-fetch";
 import Combobox from "@/components/shared/combobox/combobox";
 import { getDoctors } from "@/features/doctor/libs/doctor";
 import { AuthUser } from "@/types/auth-user";
+import { getUsers, UserMultiProps } from "@/features/user/libs/user";
+import { DatePicker } from "@/components/shared/date-picker/date-picker";
 
 export default function RxForm({
   onSuccess,
@@ -33,14 +32,15 @@ export default function RxForm({
   const prevDate = new Date();
   prevDate.setDate(prevDate.getDate() - 1);
 
-  const { data: brands } = useFetch(() => {
-    return getBrands({ page: 1, size: 20 });
-  });
+  // const { data: brands } = useFetch(() => {
+  //   return getBrands({ page: 1, size: 20 });
+  // });
 
   const form = useForm<DoctorRxType>({
     resolver: zodResolver(doctorRxSchema),
     defaultValues: {
       rx_date: prevDate,
+      updated_by: authUser.userId,
     },
   });
 
@@ -83,19 +83,22 @@ export default function RxForm({
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>Doctor</FieldLabel>
+              <FieldLabel htmlFor={field.name}>MIO</FieldLabel>
               <Combobox
-                getKey={(item: doctor) => item.id.toString()}
-                getLabel={(item: doctor) => item.full_name}
-                fetcher={getDoctors as any}
+                getKey={(item: UserMultiProps) => item.user_id}
+                getLabel={(item: UserMultiProps) =>
+                  `${item.user_information?.full_name} (${item.user_id})`
+                }
+                fetcher={getUsers as any}
                 placeholder="Select"
                 onValueChange={value => {
                   field.onChange(value);
                 }}
                 searchparams={{
-                  sapRegionCode:
-                    authUser.role === "rm" ? authUser.areaCode : undefined,
-                  size: 5,
+                  sap_region_code:
+                    authUser.role === "rm" ? authUser.userId : undefined,
+                  size: 8,
+                  role: "mio",
                 }}
                 // defaultValue={prevData?.doctor_id?.toString()}
               />
@@ -109,16 +112,21 @@ export default function RxForm({
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>Brand</FieldLabel>
-              <Select
-                // defaultValue={prevData?.brand_id?.toString()}
-                data={brands.map(item => ({
-                  label: item.name,
-                  value: item.id.toString(),
-                }))}
+              <FieldLabel htmlFor={field.name}>Doctor</FieldLabel>
+              <Combobox
+                getKey={(item: doctor) => item.id.toString()}
+                getLabel={(item: doctor) => item.full_name}
+                fetcher={getDoctors as any}
+                placeholder="Select"
                 onValueChange={value => {
-                  field.onChange(Number(value));
+                  field.onChange(value);
                 }}
+                searchparams={{
+                  sapRegionCode:
+                    authUser.role === "rm" ? authUser.areaCode : undefined,
+                  size: 8,
+                }}
+                // defaultValue={prevData?.doctor_id?.toString()}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
@@ -137,6 +145,18 @@ export default function RxForm({
                 placeholder="Quantity"
                 onChange={e => field.onChange(e.target.valueAsNumber)}
               />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        <Controller
+          name={"rx_date"}
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Quantity</FieldLabel>
+              <DatePicker onChange={value => field.onChange(value)} />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}

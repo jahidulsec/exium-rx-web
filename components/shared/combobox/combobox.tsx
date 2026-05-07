@@ -51,7 +51,7 @@ export default function Combobox<T>({
   placeholder = "Select an option",
   defaultValue,
   disabledKeys,
-  searchparams,
+  searchparams = {},
 }: AsyncComboboxProps<T>) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue ?? "");
@@ -60,13 +60,13 @@ export default function Combobox<T>({
   const [input, setInput] = React.useState(defaultValue ?? "");
   const search = useDebounce(input);
 
-  const [pending, startTransition] = React.useTransition();
-
   React.useEffect(() => {
     let isActive = true; // prevent race condition
 
     const run = async () => {
       const { page, size, search: paramSearch, ...params } = searchparams;
+
+      console.log(searchparams);
 
       const res = await fetcher({
         page: page || 1,
