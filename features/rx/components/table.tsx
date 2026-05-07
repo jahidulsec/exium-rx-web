@@ -11,9 +11,16 @@ import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react";
 import { getDisableStatusOnExpiredDate } from "@/utils/helper";
 import { DoctorRxMulti } from "@/types/rx";
+import React from "react";
+import { FormSheet } from "@/components/shared/sheet/sheet";
+import RxForm from "./admin/form";
+import { useAuth } from "@/providers/auth-provider";
+import { AuthUser } from "@/types/auth-user";
 
 export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
   const serialColumns = useTableSerialColumn<DoctorRxMulti>();
+  const [edit, setEdit] = React.useState<DoctorRxMulti | boolean>(false);
+  const { user } = useAuth();
 
   const columns: ColumnDef<DoctorRxMulti>[] = [
     serialColumns,
@@ -93,7 +100,11 @@ export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
               value.created_at as Date,
               7,
             ) ? null : (
-              <Button variant={"secondary"} size={"sm"}>
+              <Button
+                variant={"secondary"}
+                size={"sm"}
+                onClick={() => setEdit(value)}
+              >
                 <Edit />
                 Edit
               </Button>
@@ -104,5 +115,17 @@ export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
     },
   ];
 
-  return <DataTable data={data} columns={columns} />;
+  return (
+    <>
+      <DataTable data={data} columns={columns} />
+
+      {/* Form */}
+      <FormSheet open={!!edit} onOpenChange={setEdit} formTitle="Edit Doctor Rx Entry">
+        <RxForm
+          authUser={user as AuthUser}
+          prevData={typeof edit !== "boolean" ? edit : undefined}
+        />
+      </FormSheet>
+    </>
+  );
 }

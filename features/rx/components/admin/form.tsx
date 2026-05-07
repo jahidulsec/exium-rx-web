@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { doctorRxSchema, DoctorRxType } from "../../actions/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { doctor, doctor_rx } from "@/lib/generated/prisma";
-import { createDoctorRx } from "../../actions/rx";
+import { createDoctorRx, updateDoctorRx } from "../../actions/rx";
 import { FormButton } from "@/components/shared/button/button";
 import {
   Field,
@@ -19,15 +19,19 @@ import { getDoctors } from "@/features/doctor/libs/doctor";
 import { AuthUser } from "@/types/auth-user";
 import { getUsers, UserMultiProps } from "@/features/user/libs/user";
 import { DatePicker } from "@/components/shared/date-picker/date-picker";
+import { Select } from "@/components/shared/select/select";
+import { DoctorRxMulti } from "@/types/rx";
 
 export default function RxForm({
   onSuccess,
   onError,
   authUser,
+  prevData,
 }: {
   onSuccess?: (message?: string) => void;
   onError?: (message?: string) => void;
   authUser: AuthUser;
+  prevData?: DoctorRxMulti;
 }) {
   const prevDate = new Date();
   prevDate.setDate(prevDate.getDate() - 1);
@@ -39,13 +43,23 @@ export default function RxForm({
   const form = useForm<DoctorRxType>({
     resolver: zodResolver(doctorRxSchema),
     defaultValues: {
-      rx_date: prevDate,
+      user_id: prevData?.user_id,
+      doctor_id: prevData?.doctor_id.toString(),
+      quantity: prevData?.quantity,
+      rx_date: prevData?.rx_date ?? prevDate,
       updated_by: authUser.userId,
+      status: prevData?.status as "pending",
     },
   });
 
+  React.useEffect(() => {
+    console.log(form.formState.errors);
+  }, [form]);
+
   const onSubmit = async (data: DoctorRxType) => {
-    const res = await createDoctorRx(data);
+    const res = prevData
+      ? await updateDoctorRx(prevData.id, data)
+      : await createDoctorRx(data);
 
     if (res.success) {
       onSuccess?.(res.message);
@@ -99,8 +113,9 @@ export default function RxForm({
                     authUser.role === "rm" ? authUser.userId : undefined,
                   size: 8,
                   role: "mio",
+                  search: prevData?.user_id?.toString(),
                 }}
-                // defaultValue={prevData?.doctor_id?.toString()}
+                defaultValue={prevData?.user_id}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
@@ -125,8 +140,9 @@ export default function RxForm({
                   sapRegionCode:
                     authUser.role === "rm" ? authUser.areaCode : undefined,
                   size: 8,
+                  search: prevData?.doctor_id?.toString(),
                 }}
-                // defaultValue={prevData?.doctor_id?.toString()}
+                defaultValue={prevData?.doctor_id?.toString()}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
@@ -156,7 +172,31 @@ export default function RxForm({
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor={field.name}>Quantity</FieldLabel>
-              <DatePicker onChange={value => field.onChange(value)} />
+              <DatePicker
+                defaultValue={prevData?.rx_date ?? prevDate}
+                onChange={value => field.onChange(value)}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        <Controller
+          name={"status"}
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Status</FieldLabel>
+              <Select
+                data={["pending", "approved", "disapproved"].map(item => ({
+                  label: item,
+                  value: item,
+                }))}
+                onValueChange={value => {
+                  field.onChange(value);
+                }}
+                defaultValue={prevData?.status as any}
+              />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}

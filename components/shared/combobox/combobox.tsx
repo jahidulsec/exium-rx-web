@@ -66,8 +66,6 @@ export default function Combobox<T>({
     const run = async () => {
       const { page, size, search: paramSearch, ...params } = searchparams;
 
-      console.log(searchparams);
-
       const res = await fetcher({
         page: page || 1,
         size: size || 10,
