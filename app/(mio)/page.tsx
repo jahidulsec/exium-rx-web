@@ -67,7 +67,7 @@ const RxContainer = async ({
 }) => {
     const { page, search } = await searchParams;
 
-    const size = 5;
+    const size = 20;
 
     const { data, message, success, count } = await getDoctors({
         page: Number(page) || 1,

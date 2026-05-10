@@ -30,9 +30,9 @@ export default function RxForm({
   const prevDate = new Date();
   prevDate.setDate(prevDate.getDate() - 1);
 
-  const { data: brands } = useFetch(() => {
-    return getBrands({ page: 1, size: 20 });
-  });
+  // const { data: brands, isPending } = useFetch(() => {
+  //   return getBrands({ page: 1, size: 20 });
+  // });
 
   const form = useForm<DoctorRxType>({
     resolver: zodResolver(doctorRxSchema),
@@ -56,15 +56,16 @@ export default function RxForm({
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup>
-        <Controller
+        {/* <Controller
           name={"brand_id"}
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor={field.name}>Brand</FieldLabel>
               <Select
+                disabled={isPending}
                 defaultValue={prevData?.brand_id?.toString()}
-                data={brands.map(item => ({
+                data={brands.map((item: brand) => ({
                   label: item.name,
                   value: item.id.toString(),
                 }))}
@@ -75,7 +76,7 @@ export default function RxForm({
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
-        />
+        /> */}
 
         <Controller
           name={"quantity"}
