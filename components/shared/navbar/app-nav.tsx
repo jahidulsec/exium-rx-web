@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import NavUser from "./nav-user";
 import NavSidebar from "./nav-sidebar";
 import NavButton from "./nav-button";
+import { AuthUser } from "@/types/auth-user";
 
 const navList = {
   superadmin: [
@@ -60,7 +61,7 @@ export default async function AppNav() {
             ))}
           </ul>
 
-          <NavUser />
+          <NavUser user={user as AuthUser} />
         </nav>
       </div>
     </header>

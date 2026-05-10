@@ -6,8 +6,8 @@ import z from "zod";
 const MAX_FILE_SIZE = 500 * 1024; // 500KB
 
 export const userSchema = z.object({
-  user_id: z.string().min(1),
-  password: z.string().min(6),
+  user_id: z.string().min(1, "At least 1 character"),
+  password: z.string("Enter password").min(6, "At least 6 characters"),
   role: userRoleEnum,
 });
 
@@ -119,8 +119,14 @@ export const userQuerySchema = baseQuerySchema.extend({
   sap_region_code: z.string().optional(),
 });
 
+export const resetPasswordSchema = z.object({
+  user_id: z.string().min(1),
+  password: z.string("Enter password").min(6, "At least 6 characters"),
+});
+
 export type BulkUsersType = z.infer<typeof bulkUsersSchema>;
 export type UserWithInformationType = z.infer<typeof userWithInformationSchema>;
 export type UserProfileType = z.infer<typeof userProfileSchema>;
 export type UserImageType = z.infer<typeof userImageSchema>;
 export type UserQuerySchemaType = z.infer<typeof userQuerySchema>;
+export type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;

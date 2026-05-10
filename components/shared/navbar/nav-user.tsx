@@ -14,9 +14,12 @@ import { userLogout } from "@/features/auth/actions/login";
 import { User } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
+import { FormSheet } from "../sheet/sheet";
+import ResetPasswordForm from "@/features/user/components/reset-password-form";
+import { AuthUser } from "@/types/auth-user";
 
-export default function NavUser() {
-  const [open, setOpen] = React.useState(false);
+export default function NavUser({ user }: { user: AuthUser }) {
+  const [resetPassword, setResetPassword] = React.useState(false);
 
   return (
     <>
@@ -34,7 +37,13 @@ export default function NavUser() {
           <DropdownMenuGroup>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Reset Password</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                setResetPassword(true);
+              }}
+            >
+              Reset Password
+            </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -54,6 +63,15 @@ export default function NavUser() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {/* reset password form */}
+      <FormSheet
+        open={resetPassword}
+        onOpenChange={setResetPassword}
+        formTitle="Reset Password"
+      >
+        <ResetPasswordForm userId={user.userId} />
+      </FormSheet>
     </>
   );
 }
