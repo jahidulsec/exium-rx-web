@@ -17,9 +17,11 @@ import { toast } from "sonner";
 import { FormSheet } from "../sheet/sheet";
 import ResetPasswordForm from "@/features/user/components/reset-password-form";
 import { AuthUser } from "@/types/auth-user";
+import ProfileForm from "@/features/user/components/profile-form";
 
 export default function NavUser({ user }: { user: AuthUser }) {
   const [resetPassword, setResetPassword] = React.useState(false);
+  const [profile, setProfile] = React.useState(false);
 
   return (
     <>
@@ -36,7 +38,13 @@ export default function NavUser({ user }: { user: AuthUser }) {
         <DropdownMenuContent align="end">
           <DropdownMenuGroup>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                setProfile(true);
+              }}
+            >
+              Profile
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 setResetPassword(true);
@@ -71,6 +79,15 @@ export default function NavUser({ user }: { user: AuthUser }) {
         formTitle="Reset Password"
       >
         <ResetPasswordForm userId={user.userId} />
+      </FormSheet>
+
+      {/* profile form */}
+      <FormSheet
+        open={profile}
+        onOpenChange={setProfile}
+        formTitle="Update Profile"
+      >
+        <ProfileForm userId={user.userId} />
       </FormSheet>
     </>
   );
