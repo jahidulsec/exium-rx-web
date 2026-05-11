@@ -38,7 +38,7 @@ export const useTableSerialColumn = <T,>(): ColumnDef<T> => {
         ? Number(searchParams.get("page"))
         : DEFAULT_PAGE;
       const serial = (validatedPage - 1) * validatedSize + row.index + 1;
-      return <p>{serial}</p>;
+      return <p className="max-w-0">{serial}</p>;
     },
   };
 };

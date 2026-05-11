@@ -14,9 +14,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { getBrands } from "@/features/brand/libs/brand";
-import { Select } from "@/components/shared/select/select";
-import useFetch from "@/hooks/use-fetch";
 
 export default function RxForm({
   prevData,
@@ -40,6 +37,7 @@ export default function RxForm({
       user_id: prevData?.user_id,
       doctor_id: prevData?.doctor_id?.toString(),
       rx_date: prevDate,
+      updated_by: prevData?.user_id
     },
   });
 
@@ -53,6 +51,10 @@ export default function RxForm({
     }
   };
 
+  React.useEffect(() => {
+    console.error(form.formState.errors);
+  }, [form.formState.errors]);
+
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup>
@@ -65,10 +67,10 @@ export default function RxForm({
               <Select
                 disabled={isPending}
                 defaultValue={prevData?.brand_id?.toString()}
-                data={brands.map((item: brand) => ({
+                data={brands?.map((item: brand) => ({
                   label: item.name,
                   value: item.id.toString(),
-                }))}
+                })) ?? []}
                 onValueChange={value => {
                   field.onChange(Number(value));
                 }}
@@ -94,7 +96,7 @@ export default function RxForm({
             </Field>
           )}
         />
-        <FormButton isPending={form.formState.isSubmitting}>Submit</FormButton>
+        <FormButton type="submit" isPending={form.formState.isSubmitting}>Submit</FormButton>
       </FieldGroup>
     </form>
   );
