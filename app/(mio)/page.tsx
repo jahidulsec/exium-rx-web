@@ -9,7 +9,10 @@ import { Section } from "@/components/shared/section/section";
 import { getAuthUser } from "@/lib/dal";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { DoctorMulti, getDoctors } from "@/features/doctor/libs/doctor";
+import {
+  DoctorMultiWithQty,
+  getDoctorsWithQuantity,
+} from "@/features/doctor/libs/doctor";
 import { AuthUser } from "@/types/auth-user";
 import { ErrorBoundary } from "@/components/shared/boundary/error-boundary";
 import { SectionLoader } from "@/components/shared/skeleton/section";
@@ -67,7 +70,7 @@ const RxContainer = async ({
 
   const size = 20;
 
-  const { data, message, success, count } = await getDoctors({
+  const { data, message, success, count } = await getDoctorsWithQuantity({
     page: Number(page) || 1,
     size,
     search: search?.toString(),
@@ -77,7 +80,7 @@ const RxContainer = async ({
   return (
     <ErrorBoundary message={!success ? message : undefined}>
       <CardContent className="flex flex-col gap-3">
-        <DoctorTable data={(data as DoctorMulti[]) ?? []} />
+        <DoctorTable data={(data as DoctorMultiWithQty[]) ?? []} />
         <PagePagination limit={size} count={count} />
       </CardContent>
     </ErrorBoundary>

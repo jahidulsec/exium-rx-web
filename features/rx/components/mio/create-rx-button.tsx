@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import React from "react";
 import RxForm from "./form";
-import { DoctorMulti } from "@/features/doctor/libs/doctor";
+import { DoctorMultiWithQty } from "@/features/doctor/libs/doctor";
 import { AuthUser } from "@/types/auth-user";
 import { toast } from "sonner";
 
@@ -13,7 +13,7 @@ export default function CreateRxButton({
   doctor,
   user,
 }: {
-  doctor?: DoctorMulti;
+  doctor?: DoctorMultiWithQty;
   user?: AuthUser;
 }) {
   const [open, setOpen] = React.useState(false);
