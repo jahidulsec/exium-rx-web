@@ -35,17 +35,16 @@ export default function DoctorTable({ data }: { data: DoctorMulti[] }) {
     },
     {
       id: "actions",
-      header: "Date",
-      cell: ({ row }) => {
-        const value = row.original;
+      header: () => {
         const prevDate = new Date();
         prevDate.setDate(prevDate.getDate() - 1);
+        return <p>{format(prevDate as Date, "dd LLL, yy")}</p>;
+      },
+      cell: ({ row }) => {
+        const value = row.original;
 
         return (
           <div className="flex flex-col gap-1">
-            <Badge variant={"outline"}>
-              {format(value.created_at as Date, "dd LLL, yy")}
-            </Badge>
             <CreateRxButton doctor={value} user={user} />
             <p className="text-muted-foreground mt-2 text-center text-xs">
               {value._count.doctor_rx} Entries
