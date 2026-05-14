@@ -56,5 +56,9 @@ export default function DoctorTable({ data }: { data: DoctorMulti[] }) {
     },
   ];
 
-  return <DataTable columns={columns} data={data} />;
+  return (
+    <div className="[&_td]:not-last:not-first:border [&_td]:not-last:not-first:border-b-0 [&_th]:not-last:border-r">
+      <DataTable columns={columns} data={data} />
+    </div>
+  );
 }
