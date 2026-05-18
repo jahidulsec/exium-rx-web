@@ -7,11 +7,7 @@ import { userQuerySchema, UserQuerySchemaType } from "../actions/schema";
 
 export type UserMultiProps = Prisma.userGetPayload<{
   include: {
-    user_information: {
-      select: {
-        full_name: true;
-      };
-    };
+    user_information: true;
   };
 }>;
 
@@ -35,14 +31,7 @@ export const getUserProfile = async (userId: string) => {
         user_id: userId,
       },
       include: {
-        user_information: {
-          select: {
-            full_name: true,
-            email: true,
-            mobile: true,
-            designation: true,
-          },
-        },
+        user_information: true,
       },
     });
 
@@ -85,17 +74,16 @@ export const getUsers = async (query: UserQuerySchemaType) => {
           rm_code: validatedQuery.sap_region_code,
         },
       }),
+      NOT: {
+        role: "superadmin",
+      },
     };
 
     const [data, count] = await Promise.all([
       db.user.findMany({
         where: filter,
         include: {
-          user_information: {
-            select: {
-              full_name: true,
-            },
-          },
+          user_information: true,
         },
         take: size,
         skip: (page - 1) * size,

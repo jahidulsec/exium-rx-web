@@ -68,7 +68,7 @@ model doctor {
   id               Int         @id @default(autoincrement())
   dr_sl            String      @db.VarChar(6)
   dr_master_id     String      @db.VarChar(8)
-  dr_child_id      String      @unique(map: "child_id_unq") @db.VarChar(8)
+  dr_child_id      String      @db.VarChar(8)
   pppp_id          String?     @db.VarChar(10)
   full_name        String      @db.VarChar(200)
   gender_idx       String?     @db.VarChar(2)
@@ -89,6 +89,8 @@ model doctor {
   created_at       DateTime?   @default(now()) @db.Timestamp(0)
   updated_at       DateTime?   @default(now()) @db.Timestamp(0)
   doctor_rx        doctor_rx[]
+
+  @@unique([dr_master_id, dr_child_id, sap_area_code], map: "chamber_chid_territory_uniq")
 }
 
 model brand {

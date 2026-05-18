@@ -16,8 +16,8 @@ const navList = {
       href: "/dashboard",
     },
     {
-      name: "Mio",
-      href: "/dashboard/mio",
+      name: "User",
+      href: "/dashboard/user",
     },
     {
       name: "Doctor",
@@ -44,25 +44,27 @@ export default async function AppNav() {
   const menu = navList[user?.role as "rm"];
 
   return (
-    <header className="sticky top-0 container mx-auto px-6 py-3">
-      <div className="flex items-center justify-between gap-5">
-        {/* logo */}
-        <div className="flex items-center gap-2">
-          <NavSidebar menu={menu} />
-          <LogoFull />
+    <header className="bg-muted/2 sticky top-0 z-10 backdrop-blur-lg">
+      <div className="container mx-auto px-6 py-3">
+        <div className="flex items-center justify-between gap-5">
+          {/* logo */}
+          <div className="flex items-center gap-2">
+            <NavSidebar menu={menu} />
+            <LogoFull />
+          </div>
+
+          <nav className="flex items-center gap-2">
+            <ul className="bg-background hidden items-center rounded-full p-1 md:flex">
+              {menu.map(item => (
+                <li key={item.href}>
+                  <NavButton {...item} />
+                </li>
+              ))}
+            </ul>
+
+            <NavUser user={user as AuthUser} />
+          </nav>
         </div>
-
-        <nav className="flex items-center gap-2">
-          <ul className="bg-background hidden items-center rounded-full p-1 md:flex">
-            {menu.map(item => (
-              <li key={item.href}>
-                <NavButton {...item} />
-              </li>
-            ))}
-          </ul>
-
-          <NavUser user={user as AuthUser} />
-        </nav>
       </div>
     </header>
   );

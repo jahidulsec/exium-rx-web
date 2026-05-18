@@ -140,6 +140,9 @@ export const createUsers = async (data: BulkUsersType) => {
       });
     }
 
+    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/user");
+
     return apiResponse.single({
       message: "Users upload successfully",
       data: null,
@@ -209,6 +212,7 @@ export const updateUserProfile = async (data: UserProfileType) => {
     revalidatePath("/profile");
     revalidatePath("/");
     revalidatePath("/dashboard");
+    revalidatePath("/dashboard/user");
 
     return apiResponse.single({
       message: "Profile is updated",
@@ -233,6 +237,24 @@ export const updateUserPassword = async (data: ResetPasswordSchemaType) => {
     return apiResponse.single({
       message: "Reset password successful",
       data: res,
+    });
+  } catch (error) {
+    return apiResponse.error({ error });
+  }
+};
+
+export const deleteUser = async (id: string) => {
+  try {
+    await db.user.delete({ where: { user_id: id } });
+
+    revalidatePath("/profile");
+    revalidatePath("/");
+    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/user");
+
+    return apiResponse.single({
+      message: "User is deleted",
+      data: null,
     });
   } catch (error) {
     return apiResponse.error({ error });
