@@ -171,7 +171,7 @@ export default function RxForm({
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>Quantity</FieldLabel>
+              <FieldLabel htmlFor={field.name}>RX Date</FieldLabel>
               <DatePicker
                 defaultValue={prevData?.rx_date ?? prevDate}
                 onChange={value => field.onChange(value)}

@@ -23,6 +23,10 @@ const navList = {
       name: "Doctor",
       href: "/dashboard/doctor",
     },
+    {
+      name: "Report",
+      href: "/dashboard/report",
+    },
   ],
   rm: [
     {

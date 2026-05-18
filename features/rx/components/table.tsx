@@ -103,7 +103,17 @@ export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
       header: "",
       cell: ({ row }) => {
         const value = row.original;
-
+        if (user?.role === "superadmin")
+          return (
+            <Button
+              variant={"secondary"}
+              size={"sm"}
+              onClick={() => setEdit(value)}
+            >
+              <Edit />
+              Edit
+            </Button>
+          );
         return (
           <p className="flex justify-end">
             {value.created_at &&
