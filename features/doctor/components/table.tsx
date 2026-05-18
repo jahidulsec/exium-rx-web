@@ -9,6 +9,9 @@ import {
 } from "@/components/shared/table/data-table";
 import { TableActionButton } from "@/components/shared/button/button";
 import { Edit, Trash } from "lucide-react";
+import AlertModal from "@/components/shared/alert-dialog/alert-dialog";
+import { deleteToastTemplate } from "@/lib/template";
+import { deleteDoctor } from "../actions/doctor";
 
 export default function DoctorTable({ data }: { data: DoctorMulti[] }) {
   const serialColumn = useTableSerialColumn<DoctorMulti>();
@@ -47,7 +50,7 @@ export default function DoctorTable({ data }: { data: DoctorMulti[] }) {
       accessorKey: "dr_child_id",
       header: "Child ID",
     },
-     {
+    {
       accessorKey: "dr_master_id",
       header: "Master ID",
     },
@@ -82,6 +85,18 @@ export default function DoctorTable({ data }: { data: DoctorMulti[] }) {
   return (
     <>
       <DataTable data={data} columns={columns} />
+
+      <AlertModal
+        open={!!del}
+        onOpenChange={setDel}
+        onAction={() => {
+          const id = typeof del !== "boolean" ? del : "";
+
+          startTransition(() => {
+            deleteToastTemplate(() => deleteDoctor(id));
+          });
+        }}
+      />
     </>
   );
 }
