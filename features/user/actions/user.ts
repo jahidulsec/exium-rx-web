@@ -12,6 +12,7 @@ import { db } from "@/config/db";
 import { hashPassword } from "@/utils/password";
 import { env } from "@/lib/env";
 import { revalidatePath } from "next/cache";
+import { deleteFileFromStorage } from "@/utils/file";
 
 export const createUsers = async (data: BulkUsersType) => {
   let rmCode = "";
@@ -202,11 +203,12 @@ const upsertUserWithInformation = async (data: UserWithInformationType) => {
 export const updateUserProfile = async (data: UserProfileType) => {
   try {
     const { user_id, ...rest } = data;
-    const user = await db.user_information.update({
+    const user = await db.user_information.upsert({
       where: {
         user_code: user_id,
       },
-      data: rest,
+      create: { ...rest, user_code: user_id, sap_id: user_id },
+      update: rest,
     });
 
     revalidatePath("/profile");
@@ -245,6 +247,20 @@ export const updateUserPassword = async (data: ResetPasswordSchemaType) => {
 
 export const deleteUser = async (id: string) => {
   try {
+    const user = await db.user.delete({
+      where: { user_id: id },
+      include: {
+        user_image: true,
+      },
+    });
+
+    if (!user) throw new Error("User does not exist");
+
+    // delete image
+    if (user.user_image) {
+      await deleteFileFromStorage(user.user_image.file_path);
+    }
+
     await db.user.delete({ where: { user_id: id } });
 
     revalidatePath("/profile");
