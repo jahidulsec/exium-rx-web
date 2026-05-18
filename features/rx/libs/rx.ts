@@ -99,6 +99,7 @@ export const getDoctorRxs = async (query: DoctorRxQuerySchemaType) => {
       ...(validatedQuery.doctor_id && {
         doctor_id: validatedQuery.doctor_id,
       }),
+
       ...(startDate &&
         endDate && {
           rx_date: {
@@ -115,6 +116,8 @@ export const getDoctorRxs = async (query: DoctorRxQuerySchemaType) => {
           doctor: {
             select: {
               full_name: true,
+              dr_child_id: true,
+              dr_master_id: true,
             },
           },
           user: {

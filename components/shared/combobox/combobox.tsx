@@ -104,7 +104,7 @@ export default function Combobox<T>({
           className={cn("justify-between overflow-hidden")}
         >
           <span className="overflow-hidden text-left">
-            {select ? getLabel(select) : "Select"}
+            {select ? getLabel(select) : placeholder}
           </span>
           <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>

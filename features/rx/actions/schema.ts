@@ -21,6 +21,7 @@ export const doctorRxExtendedQuery = z.object({
   start: z.coerce.date().optional(),
   end: z.coerce.date().optional(),
   doctor_id: z.coerce.number().optional(),
+  mio_id: z.string().optional(),
 });
 
 export const doctorRxQuerySchema = baseQuerySchema.extend(

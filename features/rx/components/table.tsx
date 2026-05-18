@@ -32,16 +32,34 @@ export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
       cell: ({ row }) => {
         const value = row.original;
 
-        return <p>{value.doctor.full_name}</p>;
+        return (
+          <div>
+            <p className="font-semibold">{value.doctor.full_name}</p>
+            <div className="flex items-center gap-3 text-xs">
+              <p>Child ID: {value.doctor.dr_child_id}</p> /
+              <p>Master ID: {value.doctor.dr_master_id}</p>
+            </div>
+          </div>
+        );
       },
     },
     {
       id: "mio",
-      header: "MIO",
+      header: "MIO (mio code)",
       cell: ({ row }) => {
         const value = row.original;
 
-        return <p>{value.user.user_information?.full_name}</p>;
+        return (
+          <div>
+            <p className="font-semibold">
+              {value.user.user_information?.full_name}
+            </p>
+            <div className="flex items-center gap-3 text-xs">
+              <p>MIO Code: {value.user_id}</p> /
+              <p>SAP Area Code: {value.user.user_information?.sap_area_code}</p>
+            </div>
+          </div>
+        );
       },
     },
     {

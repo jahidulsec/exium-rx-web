@@ -1,7 +1,8 @@
 import { ErrorBoundary } from "@/components/shared/boundary/error-boundary";
 import { BackButton } from "@/components/shared/button/button";
-import Combobox from "@/components/shared/combobox/combobox";
 import { DatePickerWithRange } from "@/components/shared/date-picker/date-range-picker";
+import DoctorSelect from "@/components/shared/filter/doctor";
+import MioSelect from "@/components/shared/filter/mio";
 import { SelectStatus } from "@/components/shared/filter/status";
 import { SearchForm } from "@/components/shared/inputs/search";
 import PagePagination from "@/components/shared/pagination/pagination";
@@ -46,6 +47,12 @@ export default async function AdminReportPage({
             <div className="flex items-center gap-2">
               <DatePickerWithRange />
               <SelectStatus />
+              {user?.role === "superadmin" && (
+                <>
+                  <DoctorSelect />
+                  <MioSelect />
+                </>
+              )}
             </div>
             <SectionFilterGroup>
               <SearchForm />
@@ -71,7 +78,8 @@ const DataTable = async ({
   searchParams: SearchParams;
   user: AuthUser;
 }) => {
-  const { page, size, search, status, start, end } = await searchParams;
+  const { page, size, search, status, start, end, doctor_id, sap_area_code } =
+    await searchParams;
 
   const { role, areaCode } = user;
 
@@ -83,6 +91,8 @@ const DataTable = async ({
     status: status?.toString() as "pending",
     start: start?.toString() as any,
     end: end?.toString() as any,
+    doctor_id: doctor_id ? Number(doctor_id.toString()) : undefined,
+    sap_area_code: sap_area_code?.toString() ?? undefined,
   });
   return (
     <ErrorBoundary message={res.success ? undefined : res.message}>

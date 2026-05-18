@@ -64,6 +64,13 @@ export const getUsers = async (query: UserQuerySchemaType) => {
               },
             },
           },
+          {
+            user_information: {
+              sap_area_code: {
+                contains: search,
+              },
+            },
+          },
         ],
       }),
       ...(validatedQuery.role && {

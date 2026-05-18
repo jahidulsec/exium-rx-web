@@ -45,6 +45,10 @@ export const getDoctors = async (query: DoctorQueryType) => {
       endDate = endOfDay(validatedParams.rxDate);
     }
 
+    console.log(validatedParams);
+
+    const isNumber = !isNaN(Number(validatedParams.search));
+
     const filter: Prisma.doctorWhereInput = {
       ...(validatedParams.search && {
         OR: [
@@ -63,9 +67,13 @@ export const getDoctors = async (query: DoctorQueryType) => {
               contains: validatedParams.search,
             },
           },
-          {
-            id: Number(validatedParams.search),
-          },
+          ...(isNumber
+            ? [
+                {
+                  id: Number(validatedParams.search),
+                },
+              ]
+            : []),
         ],
       }),
       sap_area_code: validatedParams.sapAreaCode,
