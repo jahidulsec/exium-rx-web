@@ -45,8 +45,6 @@ export const getDoctors = async (query: DoctorQueryType) => {
       endDate = endOfDay(validatedParams.rxDate);
     }
 
-    console.log(validatedParams);
-
     const filter: Prisma.doctorWhereInput = {
       ...(validatedParams.search && {
         OR: [

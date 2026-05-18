@@ -62,8 +62,6 @@ const DataTable = async ({
 }) => {
   const { page, size, search } = await searchParams;
 
-  const { role, areaCode } = user;
-
   const res = await getUsers({
     page: Number(page || 1),
     size: Number(size || 20),

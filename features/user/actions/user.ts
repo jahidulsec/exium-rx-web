@@ -247,7 +247,7 @@ export const updateUserPassword = async (data: ResetPasswordSchemaType) => {
 
 export const deleteUser = async (id: string) => {
   try {
-    const user = await db.user.delete({
+    const user = await db.user.findUnique({
       where: { user_id: id },
       include: {
         user_image: true,

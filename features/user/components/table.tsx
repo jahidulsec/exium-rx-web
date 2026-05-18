@@ -100,6 +100,7 @@ export default function UserTable({ data }: { data: UserMultiProps[] }) {
       },
     },
   ];
+
   return (
     <>
       <DataTable data={data} columns={columns} />
