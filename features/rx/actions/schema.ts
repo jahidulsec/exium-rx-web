@@ -20,6 +20,7 @@ export const doctorRxExtendedQuery = z.object({
   status: z.enum(["approved", "disapproved", "pending"]).optional(),
   start: z.coerce.date().optional(),
   end: z.coerce.date().optional(),
+  doctor_id: z.coerce.number().optional(),
 });
 
 export const doctorRxQuerySchema = baseQuerySchema.extend(

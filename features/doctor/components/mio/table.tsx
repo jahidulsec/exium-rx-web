@@ -9,6 +9,8 @@ import {
 } from "@/components/shared/table/data-table";
 import { format } from "date-fns";
 import CreateRxButton from "@/features/rx/components/mio/create-rx-button";
+import Link from "next/link";
+
 
 export default function DoctorTable({ data }: { data: DoctorMultiWithQty[] }) {
   const { user } = useAuth();
@@ -24,7 +26,12 @@ export default function DoctorTable({ data }: { data: DoctorMultiWithQty[] }) {
 
         return (
           <div className="flex flex-col gap-1 text-wrap">
-            <h3 className="text-base font-semibold">{value.full_name}</h3>
+            <Link
+              href={`/doctor/${value.id}`}
+              className="text-base font-semibold underline"
+            >
+              {value.full_name}
+            </Link>
             <p className="text-primary-foreground text-xs">
               {value.degrees} / {value.speciality}
             </p>

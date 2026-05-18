@@ -17,6 +17,7 @@ import RxForm from "./admin/form";
 import { useAuth } from "@/providers/auth-provider";
 import { AuthUser } from "@/types/auth-user";
 import { toast } from "sonner";
+import { formatDateTime } from "@/utils/formatter";
 
 export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
   const serialColumns = useTableSerialColumn<DoctorRxMulti>();
@@ -83,12 +84,7 @@ export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
       cell: ({ row }) => {
         const value = row.original;
 
-        return (
-          <p>
-            {value.rx_date &&
-              format(value.rx_date, "dd LLL yyyy")}
-          </p>
-        );
+        return <p>{value.rx_date && format(value.rx_date, "dd LLL yyyy")}</p>;
       },
     },
 
@@ -98,12 +94,7 @@ export default function DoctorRxTable({ data }: { data: DoctorRxMulti[] }) {
       cell: ({ row }) => {
         const value = row.original;
 
-        return (
-          <p>
-            {value.created_at &&
-              format(value.created_at, "dd LLL yyyy - h:mm aaa")}
-          </p>
-        );
+        return <p>{value.created_at && formatDateTime(value.created_at)}</p>;
       },
     },
 

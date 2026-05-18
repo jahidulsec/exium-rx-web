@@ -47,7 +47,7 @@ export default async function MioHomePage({
             </CardDescription>
             <SearchForm
               className="mt-6"
-              placeholder="Search by doctor name, child ID"
+              placeholder="Search by name, master ID, child ID"
             />
           </CardHeader>
           <Suspense fallback={<SectionLoader />}>

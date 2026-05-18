@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { doctorRxSchema, DoctorRxType } from "../../actions/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { brand, doctor_rx } from "@/lib/generated/prisma";
-import { createDoctorRx } from "../../actions/rx";
+import { createDoctorRx, updateDoctorRx } from "../../actions/rx";
 import { FormButton } from "@/components/shared/button/button";
 import {
   Field,
@@ -36,13 +36,16 @@ export default function RxForm({
     defaultValues: {
       user_id: prevData?.user_id,
       doctor_id: prevData?.doctor_id?.toString(),
-      rx_date: prevDate,
-      updated_by: prevData?.user_id
+      rx_date: prevData?.rx_date ?? prevDate,
+      updated_by: prevData?.user_id,
+      quantity: prevData?.quantity,
     },
   });
 
   const onSubmit = async (data: DoctorRxType) => {
-    const res = await createDoctorRx(data);
+    const res = prevData?.id
+      ? await updateDoctorRx(prevData.id, data)
+      : await createDoctorRx(data);
 
     if (res.success) {
       onSuccess?.(res.message);
@@ -96,7 +99,9 @@ export default function RxForm({
             </Field>
           )}
         />
-        <FormButton type="submit" isPending={form.formState.isSubmitting}>Submit</FormButton>
+        <FormButton type="submit" isPending={form.formState.isSubmitting}>
+          Submit
+        </FormButton>
       </FieldGroup>
     </form>
   );

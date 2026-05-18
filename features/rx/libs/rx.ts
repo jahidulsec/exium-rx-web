@@ -11,6 +11,26 @@ import {
 } from "../actions/schema";
 import { endOfDay, startOfDay } from "date-fns";
 
+export type DoctorRxsMultiProps = Prisma.doctor_rxGetPayload<{
+  include: {
+    doctor: {
+      select: {
+        full_name: true;
+      };
+    };
+    user: {
+      select: {
+        user_information: {
+          select: {
+            full_name: true;
+            sap_area_code: true;
+          };
+        };
+      };
+    };
+  };
+}>;
+
 export const getDoctorRxs = async (query: DoctorRxQuerySchemaType) => {
   let startDate: Date | undefined = undefined;
   let endDate: Date | undefined = undefined;
@@ -76,6 +96,9 @@ export const getDoctorRxs = async (query: DoctorRxQuerySchemaType) => {
       ...(validatedQuery.status && {
         status: validatedQuery.status,
       }),
+      ...(validatedQuery.doctor_id && {
+        doctor_id: validatedQuery.doctor_id,
+      }),
       ...(startDate &&
         endDate && {
           rx_date: {
@@ -113,7 +136,7 @@ export const getDoctorRxs = async (query: DoctorRxQuerySchemaType) => {
               full_name: "asc",
             },
           },
-          { created_at: "desc" },
+          { created_at: validatedQuery.sort },
         ],
       }),
       db.doctor_rx.count({

@@ -58,6 +58,7 @@ export const updateDoctorRx = async (id: number, data: DoctorRxType) => {
 
     revalidatePath("/");
     revalidatePath("/dashboard");
+    revalidatePath("/doctor/" + doctor_id);
 
     return apiResponse.single({
       data: res,

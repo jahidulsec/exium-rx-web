@@ -39,7 +39,7 @@ export default function CreateRxButton({
               Degrees: <strong>{doctor?.degrees} </strong>{" "}
             </p>
             <p>
-              Speciality: <strong>{doctor?.speciality} </strong>{" "}
+              Specialty: <strong>{doctor?.speciality} </strong>{" "}
             </p>
             <p className="w-full">
               Chamber: <strong>{doctor?.chamber} </strong>{" "}

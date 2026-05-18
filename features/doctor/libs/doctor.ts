@@ -148,13 +148,24 @@ export const getDoctorsWithQuantity = async (query: DoctorQueryType) => {
     OFFSET ${(page - 1) * size}
     `;
 
-    console.log(baseQuery);
-
     const data = await db.$queryRawUnsafe(baseQuery);
 
     return apiResponse.multi({
       data: getSerializeData(data),
       count: Number((data as any[])?.[0]?.total || 0),
+    });
+  } catch (error) {
+    return apiResponse.error({ error });
+  }
+};
+
+export const getDoctor = async (id: string) => {
+  try {
+    const doctor = await db.doctor.findUnique({ where: { id: Number(id) } });
+
+    return apiResponse.single({
+      data: doctor,
+      message: "Get doctor successful",
     });
   } catch (error) {
     return apiResponse.error({ error });
