@@ -20,7 +20,6 @@ export default async function AdminDashboardPage({
     <div className="mt-8 flex flex-col gap-8">
       <Section>
         <PageTitle>Hi, {user?.name}</PageTitle>
-        <ExcelUploadButton action={createDoctors} />
       </Section>
     </div>
   );
