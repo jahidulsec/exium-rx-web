@@ -19,7 +19,7 @@ import { SectionLoader } from "@/components/shared/skeleton/section";
 import { getRxQuantityStats } from "@/features/rx/libs/chart";
 import { ErrorBoundary } from "@/components/shared/boundary/error-boundary";
 import Link from "next/link";
-import { User2 } from "lucide-react";
+import { LibraryBig, Stethoscope, User2 } from "lucide-react";
 
 const navList = [
   {
@@ -28,12 +28,12 @@ const navList = [
     href: "/dashboard/user",
   },
   {
-    icon: User2,
+    icon: Stethoscope,
     name: "Doctor",
     href: "/dashboard/doctor",
   },
   {
-    icon: User2,
+    icon: LibraryBig,
     name: "Report",
     href: "/dashboard/report",
   },
@@ -67,7 +67,7 @@ export default async function AdminDashboardPage({
               className="bg-muted/35 min-w-[18rem] flex-1 rounded-4xl border p-4 shadow-sm"
               key={item.href}
             >
-              <div className="bg-primary text-primary-foreground mb-1 w-fit rounded-xl p-1 [&_svg]:size-4">
+              <div className="bg-primary text-primary-foreground mb-1 w-fit rounded-xl p-2 [&_svg]:size-4">
                 <item.icon />
               </div>
               <h3 className="font-semibold">{item.name}</h3>
