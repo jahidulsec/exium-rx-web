@@ -64,7 +64,7 @@ export default async function AdminDashboardPage({
           {navList.map(item => (
             <Link
               href={item.href}
-              className="bg-muted/35 min-w-[18rem] flex-1 rounded-4xl border p-4 shadow-sm"
+              className="bg-muted/35 min-w-[18rem] flex-1 rounded-4xl p-4 shadow-sm"
               key={item.href}
             >
               <div className="bg-primary text-primary-foreground mb-1 w-fit rounded-xl p-2 [&_svg]:size-4">
