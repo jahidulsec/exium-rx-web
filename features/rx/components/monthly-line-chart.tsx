@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/chart";
 import { RxQuantityStatsMultiProps } from "../libs/chart";
 import { format } from "date-fns";
+import { formatDateDB } from "@/utils/formatter";
 
 export const description = "An interactive line chart";
 
@@ -46,14 +47,26 @@ export function RxMonthlyLineChart({
     [data],
   );
 
-  const chartData = data.map(item => ({
-    date: format(item.date, "yyyy-MM-dd"),
-    total_quantity: item.total_quantity,
-  }));
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - 30);
+
+  const chartData = Array.from({ length: 30 }).map((item, index) => {
+    const dateValue = new Date(startDate);
+    dateValue.setDate(dateValue.getDate() + index);
+
+    const a = data.find(
+      value => formatDateDB(new Date(value.date)) === formatDateDB(dateValue),
+    );
+
+    return {
+      date: formatDateDB(dateValue),
+      total_quantity: a?.total_quantity ?? 0,
+    };
+  });
 
   return (
-    <Card className="py-4 shadow-sm sm:py-0 bg-muted/35">
-      <CardHeader className="flex flex-col items-stretch border-b p-0! sm:flex-row bg-background/75">
+    <Card className="bg-muted/35 py-4 shadow-sm sm:py-0">
+      <CardHeader className="bg-background/75 flex flex-col items-stretch border-b p-0! sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 pb-3 sm:pb-0">
           <CardTitle>Line Chart - RX Quantity</CardTitle>
           <CardDescription>
@@ -82,57 +95,61 @@ export function RxMonthlyLineChart({
         </div>
       </CardHeader>
       <CardContent className="px-2 sm:p-6">
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-auto h-[250px] w-full"
-        >
-          <LineChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
+        {chartData.length === 0 ? (
+          <p className="text-center">No data.</p>
+        ) : (
+          <ChartContainer
+            config={chartConfig}
+            className="aspect-auto h-[250px] w-full"
           >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              minTickGap={32}
-              tickFormatter={value => {
-                const date = new Date(value);
-                return date.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                });
+            <LineChart
+              accessibilityLayer
+              data={chartData}
+              margin={{
+                left: 12,
+                right: 12,
               }}
-            />
-            <ChartTooltip
-              content={
-                <ChartTooltipContent
-                  className="w-[150px]"
-                  nameKey="views"
-                  labelFormatter={value => {
-                    return new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    });
-                  }}
-                />
-              }
-            />
-            <Line
-              dataKey={activeChart}
-              type="monotone"
-              stroke={`var(--color-${activeChart})`}
-              strokeWidth={2}
-              dot={false}
-            />
-          </LineChart>
-        </ChartContainer>
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="date"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                minTickGap={32}
+                tickFormatter={value => {
+                  const date = new Date(value);
+                  return date.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  });
+                }}
+              />
+              <ChartTooltip
+                content={
+                  <ChartTooltipContent
+                    className="w-[150px]"
+                    nameKey="views"
+                    labelFormatter={value => {
+                      return new Date(value).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      });
+                    }}
+                  />
+                }
+              />
+              <Line
+                dataKey={activeChart}
+                type="monotone"
+                stroke={`var(--color-${activeChart})`}
+                strokeWidth={2}
+                dot={false}
+              />
+            </LineChart>
+          </ChartContainer>
+        )}
       </CardContent>
     </Card>
   );
