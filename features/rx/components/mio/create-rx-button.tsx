@@ -23,7 +23,6 @@ export default function CreateRxButton({
       <Button size={"xs"} onClick={() => setOpen(true)}>
         <PlusCircle /> Entry
       </Button>
-
       <FormSheet
         formTitle="Create Doctor Rx Entry"
         open={open}

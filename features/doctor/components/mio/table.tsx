@@ -10,10 +10,15 @@ import {
 import { format } from "date-fns";
 import CreateRxButton from "@/features/rx/components/mio/create-rx-button";
 import Link from "next/link";
+import { AuthUser } from "@/types/auth-user";
 
-
-export default function DoctorTable({ data }: { data: DoctorMultiWithQty[] }) {
-  const { user } = useAuth();
+export default function DoctorTable({
+  data,
+  user,
+}: {
+  data: DoctorMultiWithQty[];
+  user?: AuthUser;
+}) {
   const serialColumn = useTableSerialColumn<DoctorMultiWithQty>();
 
   const columns: ColumnDef<DoctorMultiWithQty>[] = [

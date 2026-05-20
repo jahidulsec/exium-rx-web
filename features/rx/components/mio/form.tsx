@@ -54,9 +54,6 @@ export default function RxForm({
     }
   };
 
-  React.useEffect(() => {
-    console.error(form.formState.errors);
-  }, [form.formState.errors]);
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
