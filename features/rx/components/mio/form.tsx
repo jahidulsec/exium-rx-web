@@ -54,7 +54,6 @@ export default function RxForm({
     }
   };
 
-
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup>
@@ -90,6 +89,7 @@ export default function RxForm({
                 {...field}
                 type="number"
                 placeholder="Quantity"
+                min={0}
                 onChange={e => field.onChange(e.target.valueAsNumber)}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

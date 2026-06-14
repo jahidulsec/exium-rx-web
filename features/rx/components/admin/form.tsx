@@ -17,7 +17,11 @@ import { Input } from "@/components/ui/input";
 import Combobox from "@/components/shared/combobox/combobox";
 import { getDoctors } from "@/features/doctor/libs/doctor";
 import { AuthUser } from "@/types/auth-user";
-import { getUsers, UserMultiProps } from "@/features/user/libs/user";
+import {
+  getUserProfile,
+  getUsers,
+  UserMultiProps,
+} from "@/features/user/libs/user";
 import { DatePicker } from "@/components/shared/date-picker/date-picker";
 import { Select } from "@/components/shared/select/select";
 import { DoctorRxMulti } from "@/types/rx";
@@ -36,6 +40,8 @@ export default function RxForm({
   const prevDate = new Date();
   prevDate.setDate(prevDate.getDate() - 1);
 
+  const [sapAreaCode, setSapAreaCode] = React.useState<string | null>(null);
+
   // const { data: brands } = useFetch(() => {
   //   return getBrands({ page: 1, size: 20 });
   // });
@@ -51,6 +57,22 @@ export default function RxForm({
       status: prevData?.status as "pending",
     },
   });
+
+  const userId = form.watch("user_id");
+
+  React.useEffect(() => {
+    if (!userId) return;
+
+    const handleData = async () => {
+      const res = await getUserProfile(userId);
+
+      if (res.success) {
+        setSapAreaCode(res.data?.user_information?.sap_area_code ?? "");
+      }
+    };
+
+    handleData();
+  }, [userId]);
 
   React.useEffect(() => {
     console.log(form.formState.errors);
@@ -131,7 +153,15 @@ export default function RxForm({
               <Combobox
                 getKey={(item: doctor) => item.id.toString()}
                 getLabel={(item: doctor) => item.full_name}
-                fetcher={getDoctors as any}
+                fetcher={params =>
+                  getDoctors({
+                    ...params,
+                    sapRegionCode: authUser.areaCode,
+                    ...(sapAreaCode && {
+                      sapAreaCode: sapAreaCode,
+                    }),
+                  }) as any
+                }
                 placeholder="Select"
                 onValueChange={value => {
                   field.onChange(value);
@@ -159,6 +189,7 @@ export default function RxForm({
                 {...field}
                 type="number"
                 placeholder="Quantity"
+                min={0}
                 onChange={e => field.onChange(e.target.valueAsNumber)}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

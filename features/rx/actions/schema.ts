@@ -2,11 +2,11 @@ import { baseQuerySchema } from "@/schema/base-query";
 import z from "zod";
 
 export const doctorRxSchema = z.object({
-  user_id: z.string(),
+  user_id: z.string("Select a MIO"),
   updated_by: z.string(),
   brand_id: z.number().optional(),
-  doctor_id: z.string(),
-  quantity: z.number(),
+  doctor_id: z.string("Select a doctor"),
+  quantity: z.number("Enter a positive number").int().min(0, "Must be greater than zero"),
   rx_date: z.date(),
   status: z.enum(["approved", "disapproved", "pending"]).optional(),
 });
