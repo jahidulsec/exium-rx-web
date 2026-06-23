@@ -17,9 +17,12 @@ import { useRouter } from "@bprogress/next";
 import { cn } from "@/lib/utils";
 
 export function DatePickerWithRange({ className }: { className?: string }) {
+  const prevDate = new Date();
+  prevDate.setDate(prevDate.getDate() - 1)
+  
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: undefined,
-    to: undefined,
+    from: prevDate,
+    to: prevDate,
   });
 
   const searchParams = useSearchParams();

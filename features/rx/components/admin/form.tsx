@@ -152,10 +152,11 @@ export default function RxForm({
               <FieldLabel htmlFor={field.name}>Doctor</FieldLabel>
               <Combobox
                 getKey={(item: doctor) => item.id.toString()}
-                getLabel={(item: doctor) => item.full_name}
+                getLabel={(item: doctor) => `${item.full_name} (${item.dr_child_id})`}
                 fetcher={params =>
                   getDoctors({
                     ...params,
+                    size: 40,
                     sapRegionCode: authUser.areaCode,
                     ...(sapAreaCode && {
                       sapAreaCode: sapAreaCode,
