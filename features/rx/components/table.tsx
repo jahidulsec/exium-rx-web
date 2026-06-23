@@ -63,7 +63,7 @@ export default function DoctorRxTable({
           <TableBody>
             {data.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={4} className="text-center">
+                <TableCell colSpan={5} className="text-center">
                   <p className="flex min-h-40 items-center justify-center">
                     No data.
                   </p>
@@ -136,7 +136,7 @@ const RxCell = ({
 
       {/*  */}
       <TableRow className={cn(open ? "" : "hidden")}>
-        <TableCell colSpan={4}>
+        <TableCell colSpan={5}>
           <div className="border-primary overflow-hidden rounded-md border">
             <Table className="">
               <TableHeader className="bg-muted/50 sticky top-0 border-b">

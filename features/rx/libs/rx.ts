@@ -37,8 +37,8 @@ export type DoctorRxGroupsMultiProps = Prisma.doctorGetPayload<{
       include: {
         user: {
           include: {
-            user_information: true
-          }
+            user_information: true;
+          };
         };
       };
     };
@@ -232,8 +232,8 @@ export const getDoctorRxExportList = async (
 };
 
 export const getDoctorRxGroups = async (query: DoctorRxQuerySchemaType) => {
-  let startDate: Date | undefined = undefined;
-  let endDate: Date | undefined = undefined;
+  let startDate: Date | undefined = new Date();
+  let endDate: Date | undefined = new Date();
 
   try {
     const { search, start, end, ...validatedQuery } =
@@ -279,6 +279,14 @@ export const getDoctorRxGroups = async (query: DoctorRxQuerySchemaType) => {
       ...(validatedQuery.sap_zone_code && {
         sap_zone_code: validatedQuery.sap_zone_code,
       }),
+      doctor_rx: {
+        some: {
+          rx_date: {
+            gte: startDate,
+            lte: endDate,
+          },
+        },
+      },
     };
 
     const [data, count] = await Promise.all([
@@ -286,16 +294,22 @@ export const getDoctorRxGroups = async (query: DoctorRxQuerySchemaType) => {
         where: filter,
         include: {
           doctor_rx: {
+            where: {
+              rx_date: {
+                gte: startDate,
+                lte: endDate,
+              },
+            },
             include: {
               user: {
                 include: {
-                  user_information: true
-                }
+                  user_information: true,
+                },
               },
             },
             orderBy: {
-              rx_date: 'desc'
-            }
+              rx_date: "desc",
+            },
           },
         },
         take: validatedQuery.size,
