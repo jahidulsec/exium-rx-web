@@ -3,7 +3,7 @@ import React from "react";
 
 const Section = ({ className, ...props }: React.ComponentProps<"section">) => {
   return (
-    <section className={cn("container mx-auto px-4 ", className)} {...props} />
+    <section className={cn("container mx-auto px-4", className)} {...props} />
   );
 };
 
@@ -53,7 +53,7 @@ const SectionFilterGroup = ({
   return (
     <div
       className={cn(
-        "flex flex-col md:items-center gap-3 md:flex-row",
+        "flex flex-col gap-3 md:flex-row md:items-center",
         className,
       )}
       {...props}

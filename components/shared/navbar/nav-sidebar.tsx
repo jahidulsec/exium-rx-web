@@ -33,7 +33,7 @@ export default function NavSidebar({
           <Separator />
           <div className="p-4">
             <nav className="">
-              <ul className="flex flex-col gap-4 w-full">
+              <ul className="flex w-full flex-col gap-4">
                 {menu.map(item => (
                   <li key={item.href}>
                     <NavButton className="w-full border" {...item} />

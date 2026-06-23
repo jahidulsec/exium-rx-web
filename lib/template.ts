@@ -5,12 +5,12 @@ const deleteToastTemplate = (
 ) => {
   return toast.promise(action, {
     loading: "Deleting...",
-    success: (data) => {
+    success: data => {
       if (!data.success) throw data;
       return data.message;
     },
-    error: (data) => {
-      return data?.message ?? 'Something went wrong';
+    error: data => {
+      return data?.message ?? "Something went wrong";
     },
   });
 };

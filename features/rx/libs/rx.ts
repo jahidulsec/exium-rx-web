@@ -31,6 +31,20 @@ export type DoctorRxsMultiProps = Prisma.doctor_rxGetPayload<{
   };
 }>;
 
+export type DoctorRxGroupsMultiProps = Prisma.doctorGetPayload<{
+  include: {
+    doctor_rx: {
+      include: {
+        user: {
+          include: {
+            user_information: true
+          }
+        };
+      };
+    };
+  };
+}>;
+
 export const getDoctorRxs = async (query: DoctorRxQuerySchemaType) => {
   let startDate: Date | undefined = undefined;
   let endDate: Date | undefined = undefined;
@@ -211,6 +225,91 @@ export const getDoctorRxExportList = async (
       message: "successful",
       data: data as any[],
       count: 0,
+    });
+  } catch (error) {
+    return apiResponse.error({ error });
+  }
+};
+
+export const getDoctorRxGroups = async (query: DoctorRxQuerySchemaType) => {
+  let startDate: Date | undefined = undefined;
+  let endDate: Date | undefined = undefined;
+
+  try {
+    const { search, start, end, ...validatedQuery } =
+      doctorRxQuerySchema.parse(query);
+
+    if (start) {
+      startDate = startOfDay(start);
+    }
+
+    if (end) {
+      endDate = endOfDay(end);
+    }
+
+    const filter: Prisma.doctorWhereInput = {
+      ...(search && {
+        OR: [
+          {
+            full_name: {
+              contains: search,
+            },
+          },
+          {
+            dr_child_id: {
+              contains: search,
+            },
+          },
+          {
+            dr_master_id: {
+              contains: search,
+            },
+          },
+        ],
+      }),
+      ...(validatedQuery.sap_area_code && {
+        sap_area_code: validatedQuery.sap_area_code,
+      }),
+      ...(validatedQuery.sap_region_code && {
+        sap_region_code: validatedQuery.sap_region_code,
+      }),
+      ...(validatedQuery.sap_sm_area_code && {
+        sap_sm_area_code: validatedQuery.sap_sm_area_code,
+      }),
+      ...(validatedQuery.sap_zone_code && {
+        sap_zone_code: validatedQuery.sap_zone_code,
+      }),
+    };
+
+    const [data, count] = await Promise.all([
+      db.doctor.findMany({
+        where: filter,
+        include: {
+          doctor_rx: {
+            include: {
+              user: {
+                include: {
+                  user_information: true
+                }
+              },
+            },
+            orderBy: {
+              rx_date: 'desc'
+            }
+          },
+        },
+        take: validatedQuery.size,
+        skip: (validatedQuery.page - 1) * validatedQuery.size,
+        orderBy: [{ full_name: "asc" }, { created_at: validatedQuery.sort }],
+      }),
+      db.doctor.count({
+        where: filter,
+      }),
+    ]);
+
+    return apiResponse.multi({
+      data,
+      count,
     });
   } catch (error) {
     return apiResponse.error({ error });

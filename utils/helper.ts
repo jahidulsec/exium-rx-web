@@ -19,7 +19,7 @@ export const getSerializeData = (data: any): any => {
   }
 
   // Handle Decimal
-  if (typeof data == 'bigint') {
+  if (typeof data == "bigint") {
     return Number(data); // safest
   }
 

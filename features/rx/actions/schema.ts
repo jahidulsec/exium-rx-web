@@ -6,7 +6,10 @@ export const doctorRxSchema = z.object({
   updated_by: z.string(),
   brand_id: z.number().optional(),
   doctor_id: z.string("Select a doctor"),
-  quantity: z.number("Enter a positive number").int().min(1, "Must be greater than zero"),
+  quantity: z
+    .number("Enter a positive number")
+    .int()
+    .min(1, "Must be greater than zero"),
   rx_date: z.date(),
   status: z.enum(["approved", "disapproved", "pending"]).optional(),
 });

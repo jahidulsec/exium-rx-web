@@ -18,8 +18,8 @@ import { cn } from "@/lib/utils";
 
 export function DatePickerWithRange({ className }: { className?: string }) {
   const prevDate = new Date();
-  prevDate.setDate(prevDate.getDate() - 1)
-  
+  prevDate.setDate(prevDate.getDate() - 1);
+
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: prevDate,
     to: prevDate,

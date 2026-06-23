@@ -1,17 +1,7 @@
-import { ExcelUploadButton } from "@/components/shared/button/excel-upload";
-import {
-  Section,
-  SectionCard,
-  SectionContent,
-  SectionHeader,
-} from "@/components/shared/section/section";
-import {
-  PageTitle,
-  SectionHeading,
-} from "@/components/shared/typography/heading";
+import { Section } from "@/components/shared/section/section";
+import { PageTitle } from "@/components/shared/typography/heading";
 import RMAdminHomeView from "@/components/views/rm/home";
 import { getAuthUser } from "@/lib/dal";
-import { createDoctors } from "@/features/doctor/actions/doctor";
 import { SearchParams } from "@/types/search-params";
 import { RxMonthlyLineChart } from "@/features/rx/components/monthly-line-chart";
 import { Suspense } from "react";
@@ -60,7 +50,7 @@ export default async function AdminDashboardPage({
       </Section>
 
       <Section>
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex flex-wrap gap-3">
           {navList.map(item => (
             <Link
               href={item.href}

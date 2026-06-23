@@ -80,7 +80,10 @@ const RxContainer = async ({
   return (
     <ErrorBoundary message={!success ? message : undefined}>
       <CardContent className="flex flex-col gap-3">
-        <DoctorTable data={(data as DoctorMultiWithQty[]) ?? []} user={user as AuthUser} />
+        <DoctorTable
+          data={(data as DoctorMultiWithQty[]) ?? []}
+          user={user as AuthUser}
+        />
         <PagePagination limit={size} count={count} />
       </CardContent>
     </ErrorBoundary>

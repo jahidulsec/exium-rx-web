@@ -64,13 +64,11 @@ const DataTable = async ({
 }) => {
   const { page, size, search } = await searchParams;
 
-
   const res = await getDoctors({
     page: Number(page || 1),
     size: Number(size || 20),
     search: search?.toString(),
   });
-
 
   return (
     <ErrorBoundary message={res.success ? undefined : res.message}>

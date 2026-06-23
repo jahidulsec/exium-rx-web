@@ -18,7 +18,7 @@ import {
 import { getDoctors } from "@/features/doctor/libs/doctor";
 import CreateRxButton from "@/features/rx/components/admin/create-rx-button";
 import DoctorRxTable from "@/features/rx/components/table";
-import { getDoctorRxs } from "@/features/rx/libs/rx";
+import { getDoctorRxGroups, getDoctorRxs } from "@/features/rx/libs/rx";
 import { AuthUser } from "@/types/auth-user";
 import { SearchParams } from "@/types/search-params";
 import { Suspense } from "react";
@@ -73,7 +73,7 @@ const DataTable = async ({
 
   const { role, areaCode } = user;
 
-  const res = await getDoctorRxs({
+  const res = await getDoctorRxGroups({
     page: Number(page || 1),
     size: Number(size || 20),
     search: search?.toString(),
@@ -84,6 +84,7 @@ const DataTable = async ({
   });
   return (
     <ErrorBoundary message={res.success ? undefined : res.message}>
+      {/* {JSON.stringify(res.data, null, 2)} */}
       <DoctorRxTable data={res.data ?? []} />
       <PagePagination count={res.count} />
     </ErrorBoundary>

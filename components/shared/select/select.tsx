@@ -41,7 +41,7 @@ const Select = ({
   return (
     <SelectUi
       {...props}
-      onValueChange={(value) => {
+      onValueChange={value => {
         if (value && paramsName) {
           const params = new URLSearchParams(searchParams);
           params.set(paramsName, value);
@@ -57,7 +57,10 @@ const Select = ({
       }
     >
       <SelectTrigger
-        className={cn("[&_svg]:text-primary bg-background border border-input", className)}
+        className={cn(
+          "[&_svg]:text-primary bg-background border-input border",
+          className,
+        )}
       >
         <SelectValue id={id} placeholder={placeholder ?? "Select"} />
       </SelectTrigger>
@@ -84,7 +87,7 @@ const Select = ({
       <SelectContent>
         <SelectGroup>
           {data.length > 0 ? (
-            data.map((item) => (
+            data.map(item => (
               <SelectItem
                 disabled={item.disabled}
                 key={item.value}
@@ -94,7 +97,7 @@ const Select = ({
               </SelectItem>
             ))
           ) : (
-            <SelectLabel className="text-xs text-muted-foreground">
+            <SelectLabel className="text-muted-foreground text-xs">
               {pending ? "Loading..." : "No data."}
             </SelectLabel>
           )}

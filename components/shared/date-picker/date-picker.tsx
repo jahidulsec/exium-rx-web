@@ -43,7 +43,7 @@ export function DatePicker({
             mode="single"
             selected={date}
             captionLayout="dropdown"
-            onSelect={(date) => {
+            onSelect={date => {
               setDate(date);
               if (date && onChange) {
                 onChange(date);

@@ -24,7 +24,6 @@ import {
 } from "@/features/user/libs/user";
 import { DatePicker } from "@/components/shared/date-picker/date-picker";
 import { Select } from "@/components/shared/select/select";
-import { DoctorRxMulti } from "@/types/rx";
 
 export default function RxForm({
   onSuccess,
@@ -35,7 +34,7 @@ export default function RxForm({
   onSuccess?: (message?: string) => void;
   onError?: (message?: string) => void;
   authUser: AuthUser;
-  prevData?: DoctorRxMulti;
+  prevData?: DoctorRxType & {id: string};
 }) {
   const prevDate = new Date();
   prevDate.setDate(prevDate.getDate() - 1);
@@ -79,8 +78,8 @@ export default function RxForm({
   }, [form]);
 
   const onSubmit = async (data: DoctorRxType) => {
-    const res = prevData
-      ? await updateDoctorRx(prevData.id, data)
+    const res = prevData?.id
+      ? await updateDoctorRx(Number(prevData.id), data)
       : await createDoctorRx(data);
 
     if (res.success) {
@@ -152,7 +151,9 @@ export default function RxForm({
               <FieldLabel htmlFor={field.name}>Doctor</FieldLabel>
               <Combobox
                 getKey={(item: doctor) => item.id.toString()}
-                getLabel={(item: doctor) => `${item.full_name} (${item.dr_child_id})`}
+                getLabel={(item: doctor) =>
+                  `${item.full_name} (${item.dr_child_id})`
+                }
                 fetcher={params =>
                   getDoctors({
                     ...params,

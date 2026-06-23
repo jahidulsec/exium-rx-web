@@ -4,7 +4,7 @@ import { PropsWithChildren } from "react";
 
 export default function AdminLayout({ children }: PropsWithChildren) {
   return (
-    <div className="from-primary/25 to-background max-h-svh min-h-svh overflow-y-auto bg-linear-to-tl @container">
+    <div className="from-primary/25 to-background @container min-h-svh bg-linear-to-tl">
       <AppNav />
       <main className="min-h-[calc(100svh-170px)]">{children}</main>
       <Footer />

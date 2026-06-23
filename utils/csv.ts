@@ -12,7 +12,7 @@ export const convertToCSV = <T extends Record<string, unknown>>(
   numberCheck?: string[],
   dataFormat?: {
     headerName: string;
-    fieldName?: string,
+    fieldName?: string;
     format: (value: unknown) => string;
   }[],
 ) => {
@@ -31,14 +31,17 @@ export const convertToCSV = <T extends Record<string, unknown>>(
     return escaped;
   };
 
-  let csv = headers.map((item) => item.name ? `"${item.name}"` : item.header).join(",") + "\r\n";
+  let csv =
+    headers
+      .map(item => (item.name ? `"${item.name}"` : item.header))
+      .join(",") + "\r\n";
 
   for (const row of data) {
     const line = headers
-      .map((header) => {
+      .map(header => {
         const value = row[header.header];
         const formatter = dataFormat?.find(
-          (i) => i.headerName === header.header || i.fieldName === header.name,
+          i => i.headerName === header.header || i.fieldName === header.name,
         )?.format;
 
         if (formatter) {

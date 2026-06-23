@@ -88,7 +88,7 @@ const DoctorRxList = async ({ id }: { id: string }) => {
     doctor_id: Number(id),
     start: prevDate,
     end: prevDate,
-    sort: 'asc'
+    sort: "asc",
   });
 
   return (

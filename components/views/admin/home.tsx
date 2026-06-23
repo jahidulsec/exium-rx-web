@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function AdminHomeView() {
-  return (
-    <div>DashbaordHomeView</div>
-  )
+  return <div>DashbaordHomeView</div>;
 }
