@@ -31,7 +31,15 @@ export const doctorRxQuerySchema = baseQuerySchema.extend(
   doctorRxExtendedQuery.omit({ search: true }).shape,
 );
 
+export const approveDoctorRxsSchema = z.array(
+  z.object({
+    id: z.string(),
+  }),
+  "At least enter one value",
+);
+
 export type DoctorRxQuerySchemaType = z.infer<typeof doctorRxQuerySchema>;
 
 export type DoctorRxType = z.infer<typeof doctorRxSchema>;
 export type DoctorRxExtendedQueryType = z.infer<typeof doctorRxExtendedQuery>;
+export type ApproveDoctorRxsType = z.infer<typeof approveDoctorRxsSchema>;

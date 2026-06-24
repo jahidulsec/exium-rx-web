@@ -15,12 +15,10 @@ import {
 } from "@/components/shared/section/section";
 import { TableSkeleton } from "@/components/shared/skeleton/table";
 import { PageHeading } from "@/components/shared/typography/heading";
-import { getDoctors } from "@/features/doctor/libs/doctor";
 import ExportButton from "@/features/rx/components/admin/export-button";
 import DoctorRxTable from "@/features/rx/components/table";
-import { getDoctorRxs } from "@/features/rx/libs/rx";
+import { getDoctorRxGroups } from "@/features/rx/libs/rx";
 import { getAuthUser } from "@/lib/dal";
-import { doctor } from "@/lib/generated/prisma";
 import { AuthUser } from "@/types/auth-user";
 import { SearchParams } from "@/types/search-params";
 import React, { Suspense } from "react";
@@ -83,7 +81,7 @@ const DataTable = async ({
 
   const { role, areaCode } = user;
 
-  const res = await getDoctorRxs({
+  const res = await getDoctorRxGroups({
     page: Number(page || 1),
     size: Number(size || 20),
     search: search?.toString(),

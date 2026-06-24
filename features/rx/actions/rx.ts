@@ -1,7 +1,11 @@
 "use server";
 
 import { apiResponse } from "@/lib/response";
-import { DoctorRxType } from "./schema";
+import {
+  approveDoctorRxsSchema,
+  ApproveDoctorRxsType,
+  DoctorRxType,
+} from "./schema";
 import { db } from "@/config/db";
 import { revalidatePath } from "next/cache";
 
@@ -64,6 +68,30 @@ export const updateDoctorRx = async (id: number, data: DoctorRxType) => {
       data: res,
       message: "New RX is updated successfully",
     });
+  } catch (error) {
+    return apiResponse.error({ error });
+  }
+};
+
+export const appovedDoctorRxs = async (data: ApproveDoctorRxsType) => {
+  try {
+    const formData = approveDoctorRxsSchema.parse(data);
+
+    for (const i of formData) {
+      await db.doctor_rx.update({
+        where: {
+          id: Number(i.id),
+        },
+        data: {
+          status: "approved",
+        },
+      });
+    }
+
+    revalidatePath('/dashboard')
+    revalidatePath('/dashboard/report')
+
+    return apiResponse.single({ message: "Data approved successful", data });
   } catch (error) {
     return apiResponse.error({ error });
   }
