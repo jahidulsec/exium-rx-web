@@ -236,7 +236,7 @@ export const getDoctorRxGroups = async (query: DoctorRxQuerySchemaType) => {
   let endDate: Date | undefined = new Date();
 
   try {
-    const { search, start, end, ...validatedQuery } =
+    const { search, start, end, doctor_id, status, ...validatedQuery } =
       doctorRxQuerySchema.parse(query);
 
     if (start) {
@@ -285,8 +285,14 @@ export const getDoctorRxGroups = async (query: DoctorRxQuerySchemaType) => {
             gte: startDate,
             lte: endDate,
           },
+          ...(status && {
+            status: status,
+          }),
         },
       },
+      ...(doctor_id && {
+        id: doctor_id,
+      }),
     };
 
     const [data, count] = await Promise.all([
@@ -299,6 +305,9 @@ export const getDoctorRxGroups = async (query: DoctorRxQuerySchemaType) => {
                 gte: startDate,
                 lte: endDate,
               },
+              ...(status && {
+                status: status,
+              }),
             },
             include: {
               user: {
