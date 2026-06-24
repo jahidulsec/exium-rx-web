@@ -30,6 +30,7 @@ import { DoctorRxType } from "../actions/schema";
 import { useSearchParams } from "next/navigation";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/utils/settings";
 import { appovedDoctorRxs } from "../actions/rx";
+import { useRxProvider } from "@/providers/rx-provider";
 
 export default function DoctorRxTable({
   data,
@@ -38,6 +39,7 @@ export default function DoctorRxTable({
 }) {
   const { user } = useAuth();
   const searchParams = useSearchParams();
+  const { onRxIds } = useRxProvider();
 
   const page = searchParams.has("page")
     ? Number(searchParams.get("page"))
@@ -45,6 +47,14 @@ export default function DoctorRxTable({
   const size = searchParams.has("size")
     ? Number(searchParams.get("size"))
     : DEFAULT_PAGE_SIZE;
+
+  React.useEffect(() => {
+    if (!data) return;
+
+    if (data.length > 0) {
+      onRxIds(data.flatMap(i => i.doctor_rx.map(rx => rx.id.toString())));
+    }
+  }, [data]);
 
   return (
     <>
@@ -139,6 +149,8 @@ const RxCell = ({
             {item.doctor_rx.length > 0 &&
               item.doctor_rx.filter(i => i.status == "pending").length > 0 && (
                 <ActionButton
+                  variant={"outline"}
+                  className="text-secondary border-secondary/20 bg-secondary/5"
                   isPending={pending}
                   onClick={() => {
                     startTransition(() => handleApproveData(item.doctor_rx));
@@ -148,7 +160,7 @@ const RxCell = ({
                   {item.doctor_rx.filter(i => i.status == "pending").length})
                 </ActionButton>
               )}
-              
+
             <TableActionButton
               variant={"default"}
               tooltip="Show"

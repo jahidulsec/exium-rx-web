@@ -16,6 +16,7 @@ import {
 import { TableSkeleton } from "@/components/shared/skeleton/table";
 import { PageHeading } from "@/components/shared/typography/heading";
 import ExportButton from "@/features/rx/components/admin/export-button";
+import ApproveAllButton from "@/features/rx/components/approve-all-button";
 import DoctorRxTable from "@/features/rx/components/table";
 import { getDoctorRxGroups } from "@/features/rx/libs/rx";
 import { getAuthUser } from "@/lib/dal";
@@ -55,6 +56,7 @@ export default async function AdminReportPage({
             <SectionFilterGroup>
               <SearchForm />
               <ExportButton />
+              <ApproveAllButton />
             </SectionFilterGroup>
           </SectionFilter>
 
