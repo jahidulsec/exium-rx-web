@@ -49,11 +49,7 @@ export default function DoctorRxTable({
     : DEFAULT_PAGE_SIZE;
 
   React.useEffect(() => {
-    if (!data) return;
-
-    if (data.length > 0) {
-      onRxIds(data.flatMap(i => i.doctor_rx.map(rx => rx.id.toString())));
-    }
+    onRxIds(data.flatMap(i => i.doctor_rx.map(rx => rx.id.toString())));
   }, [data]);
 
   return (
