@@ -1,7 +1,5 @@
 "use client";
 
-import { useTableSerialColumn } from "@/components/shared/table/data-table";
-import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,11 +21,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { TableActionButton } from "@/components/shared/button/button";
+import {
+  ActionButton,
+  TableActionButton,
+} from "@/components/shared/button/button";
 import { cn } from "@/lib/utils";
 import { DoctorRxType } from "../actions/schema";
 import { useSearchParams } from "next/navigation";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/utils/settings";
+import { appovedDoctorRxs } from "../actions/rx";
 
 export default function DoctorRxTable({
   data,
@@ -46,7 +48,6 @@ export default function DoctorRxTable({
 
   return (
     <>
-      {/* <DataTable data={data} columns={columns} /> */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -100,6 +101,18 @@ const RxCell = ({
     (DoctorRxType & { id: string }) | boolean
   >(false);
 
+  const [pending, startTransition] = React.useTransition();
+
+  const handleApproveData = async (data: typeof item.doctor_rx) => {
+    const res = await appovedDoctorRxs(
+      data
+        .filter(v => v.status === "pending")
+        .map(i => ({ id: i.id.toString() })),
+    );
+
+    toast[res.success ? "success" : "error"](res.message);
+  };
+
   return (
     <>
       <TableRow>
@@ -122,11 +135,25 @@ const RxCell = ({
             : "-"}
         </TableCell>
         <TableCell>
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-1">
+            {item.doctor_rx.length > 0 &&
+              item.doctor_rx.filter(i => i.status == "pending").length > 0 && (
+                <ActionButton
+                  isPending={pending}
+                  onClick={() => {
+                    startTransition(() => handleApproveData(item.doctor_rx));
+                  }}
+                >
+                  Approve (
+                  {item.doctor_rx.filter(i => i.status == "pending").length})
+                </ActionButton>
+              )}
+              
             <TableActionButton
               variant={"default"}
               tooltip="Show"
               onClick={() => setOpen(!open)}
+              className="border-primary"
             >
               {open ? <ChevronUp /> : <ChevronDown />}
             </TableActionButton>
