@@ -1,7 +1,6 @@
 "use client";
 
 import Combobox from "../combobox/combobox";
-import { user } from "@/lib/generated/prisma";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "@bprogress/next";
 import { Button } from "@/components/ui/button";
@@ -16,6 +15,7 @@ export default function MioSelect() {
   return (
     <div className="flex items-center">
       <Combobox
+        key={JSON.stringify(searchParams.get("sap_area_code"))}
         getKey={(item: UserMultiProps) =>
           item.user_information?.sap_area_code ?? item.user_id
         }

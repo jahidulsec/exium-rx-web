@@ -48,8 +48,8 @@ export default async function AdminReportPage({
               <SelectStatus />
               {user?.role === "superadmin" && (
                 <>
-                  <DoctorSelect />
                   <MioSelect />
+                  <DoctorSelect />
                 </>
               )}
             </div>

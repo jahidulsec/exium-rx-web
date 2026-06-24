@@ -14,12 +14,17 @@ export default function DoctorSelect() {
   const router = useRouter();
   const pathname = usePathname();
 
+  const sap_area_code = searchParams.get("sap_area_code")?.toString() ?? undefined;
+
   return (
     <div className="flex items-center">
       <Combobox
+        key={JSON.stringify(searchParams.get("doctor_id"))}
         getKey={(item: doctor) => item.id.toString()}
         getLabel={(item: doctor) => item.full_name}
-        fetcher={getDoctors as any}
+        fetcher={params =>
+          getDoctors({ ...params, sapAreaCode: sap_area_code }) as any
+        }
         placeholder="Select Doctor"
         onValueChange={value => {
           const params = new URLSearchParams(searchParams);
